@@ -22,6 +22,7 @@ public class CrawlerMain {
             List<Handler> handlers = new LinkedList<>();
             handlers.add(new ImageryDirHandler());
 
+
             Scanner scanner = new Scanner(handlers);
             scanner.scan(root);
         } else {
