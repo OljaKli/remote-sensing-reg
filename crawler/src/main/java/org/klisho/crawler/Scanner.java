@@ -1,6 +1,7 @@
 package org.klisho.crawler;
 
 import org.klisho.crawler.handlers.Handler;
+import org.klisho.crawler.handlers.HandlersManager;
 
 import java.io.File;
 import java.util.Collections;
@@ -12,10 +13,10 @@ import java.util.List;
  */
 public class Scanner {
 
-    private final List<Handler> handlers;
+    private final HandlersManager handlersMngr;
 
-    public Scanner(List<Handler> handlers) {
-        this.handlers = Collections.unmodifiableList(handlers);
+    public Scanner(HandlersManager handlerMngr) {
+        this.handlersMngr = handlerMngr;
     }
 
 
@@ -24,12 +25,22 @@ public class Scanner {
 
         for (File file : listOfFiles) {
             if (file.isFile()) {
-                System.out.println(file.getName());
+               // System.out.println(file.getName());
+                handlersMngr.handle(file);
+
+               //''' System.out.println(handlersMngr);
+
             } else if (file.isDirectory()) {
-                System.out.println(file.getName() + File.separator);
+                //System.out.println(file.getName() + File.separator);
+                handlersMngr.handle(file);
+              //  System.out.println(handlersMngr);
+
                 scan(file);
             }
+
+
         }
+
     }
 
 

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.klisho.crawler.handlers.Handler;
+import org.klisho.crawler.handlers.HandlersManager;
 import org.klisho.crawler.handlers.ImageryDirHandler;
 
 public class CrawlerMain {
@@ -18,12 +20,10 @@ public class CrawlerMain {
         String path = args[0]; // TODO check index
 
         File root = new File(path);
-        if (root.exists() && root.isDirectory()){
-            List<Handler> handlers = new LinkedList<>();
-            handlers.add(new ImageryDirHandler());
+        if (root.exists() && root.isDirectory()) {
+            HandlersManager mngr = HandlersManager.createDefaultHandlersManager();
 
-
-            Scanner scanner = new Scanner(handlers);
+            Scanner scanner = new Scanner(mngr);
             scanner.scan(root);
         } else {
             System.err.println("directory is not available: " + path);
