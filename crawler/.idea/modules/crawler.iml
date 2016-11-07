@@ -8,5 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Gradle: org.gdal:gdal:2.1.0" level="project" />
+    <orderEntry type="library" name="org.gdal:gdal:2.1.0" level="project" />
   </component>
 </module>

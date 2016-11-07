@@ -4,6 +4,7 @@
     <exclude-output/>
     <orderEntry type="inheritedJdk"/>
     <content url="file://$MODULE_DIR$/">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false"/>
       <excludeFolder url="file://$MODULE_DIR$/build"/>
       <excludeFolder url="file://$MODULE_DIR$/.gradle"/>
     </content>
@@ -27,6 +28,17 @@
         <JAVADOC/>
         <SOURCES>
           <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/commons-io/commons-io/2.5/caf033a4a7c37b4a8ff3ea084cba591539b0b69/commons-io-2.5-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.gdal/gdal/2.1.0/1bc446d13274ae9617defebcd5677ace57b403a4/gdal-2.1.0.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.gdal/gdal/2.1.0/6fc3d5aabfc8f1f732597c62b70550636c5f6efc/gdal-2.1.0-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>

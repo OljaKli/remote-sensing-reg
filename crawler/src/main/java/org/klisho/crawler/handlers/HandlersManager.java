@@ -16,6 +16,8 @@ public class HandlersManager {
     public static HandlersManager createDefaultHandlersManager() {
         HandlersManager mngr = new HandlersManager();
         mngr.handlers.add(new ImageryDirHandler());
+        mngr.handlers.add(new PhotoScanFileHandler());
+        mngr.handlers.add(new OrthoFileHandler());
         //TODO add another handlers
 
         return mngr;

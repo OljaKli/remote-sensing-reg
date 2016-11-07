@@ -30,9 +30,9 @@ public class ImageryDirHandler implements Handler {
         if (!res.isDirectory()) {
             return false;
         }
+
         File[] files = res.listFiles(
                 new FileFilter() { //anonymous class
-
             @Override
             public boolean accept(File pathname) {
                 if (!pathname.isFile()) {

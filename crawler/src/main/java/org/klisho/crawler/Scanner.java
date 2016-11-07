@@ -15,6 +15,7 @@ public class Scanner {
 
     private final HandlersManager handlersMngr;
 
+
     public Scanner(HandlersManager handlerMngr) {
         this.handlersMngr = handlerMngr;
     }
