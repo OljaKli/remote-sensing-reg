@@ -40,9 +40,9 @@ public class OrthoFileHandler implements Handler {
 
                         String ext = FilenameUtils.getExtension(pathname.toString());
                         if (ext != null && ORTHO_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
-                            //return orthoCheck(pathname);
-                            orthoCheck(pathname);
-                            return true;
+                            return orthoCheck(pathname);
+//                            orthoCheck(pathname);
+//                            return true;
 
                             //TODO gdal check of raster (gtiff)
                         }
@@ -60,68 +60,31 @@ public class OrthoFileHandler implements Handler {
 
     public static boolean orthoCheck(File res) {
 
-        //public static void AllRegister();
-        //org.gdal.gdal.gdalJNI.AllRegister();
         ogr.RegisterAll();
         gdal.AllRegister();
 
         Dataset ortho = gdal.Open(res.getPath());
+        String prj = ortho.GetProjection();
 
-        //Dataset ortho = gdal.Open("08_05_MSK-DEM_50cm.tif");
-            String prj = ortho.GetProjection();
-
-            if (!(prj.isEmpty())) {
-                //SpatialReference srs = new SpatialReference(prj);
-                //if (srs.IsProjected() == 1) {
-                SpatialReference srs = new SpatialReference(prj);
-                if (srs.IsProjected() == 1) {
-                    System.out.println(srs.GetAttrValue("projcs"));
-                    System.out.println(srs.GetAttrValue("geogcs"));
-                }
-                return true;
-            } else {
-                System.out.println("there is no ortho or DEM in selected path");
-                return false;
+        if (!prj.isEmpty()) {
+            SpatialReference srs = new SpatialReference(prj);
+            if (srs.IsProjected() == 1) {
+                System.out.println("File: " + res.getAbsolutePath());
+                System.out.println(srs.GetAttrValue("projcs"));
+                System.out.println(srs.GetAttrValue("geogcs"));
             }
-
-//        Dataset ortho = gdal.Open(res.getAbsolutePath());
-//        String prj = ortho.GetProjection();
-//        if (!(prj.isEmpty())) {
-//            //SpatialReference srs = new SpatialReference(prj);
-//            //if (srs.IsProjected() == 1) {
-//            SpatialReference srs = new SpatialReference(prj);
-//            if (srs.IsProjected() == 1) {
-//                System.out.println(srs.GetAttrValue("projcs"));
-//                System.out.println(srs.GetAttrValue("geogcs"));
-//            }
-//            return true;
+            return true;
+        }
 //        } else {
-//            System.out.println("there is no ortho or DEM in selected path");
-//            return false;
-//        }
-
+//           // System.out.println("there is no ortho or DEM in selected path");
+            return false;
+        //}
     }
 
     @Override
     public void handle(File res) {
         System.out.println(res.getAbsolutePath() + res.separator);
-
-
-//        if (res.isFile()) {
-//            Dataset ortho = gdal.Open(res.getName());
-//            String prj = ortho.GetProjection();
-//            System.out.println(prj);
-//
-//            SpatialReference srs = new SpatialReference(prj);
-//            //if (srs.IsProjected() == 1) {
-//            if (new SpatialReference(prj).IsProjected() == 1) {
-//                System.out.println(srs.GetAttrValue("projcs"));
-//                System.out.println(srs.GetAttrValue("geogcs"));
-//            }
-//        } else {
-//            System.out.println("there is no ortho or DEM in selected path");
-//        }
-         System.out.println(this);
+        System.out.println(this);
 
     }
 
