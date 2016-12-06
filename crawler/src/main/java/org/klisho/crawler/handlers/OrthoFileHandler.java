@@ -2,14 +2,19 @@ package org.klisho.crawler.handlers;
 
 import org.apache.commons.io.FilenameUtils;
 import org.gdal.gdal.Dataset;
+import org.gdal.gdal.InfoOptions;
+import org.gdal.gdal.Transformer;
 import org.gdal.gdal.gdal;
+import org.gdal.ogr.Geometry;
 import org.gdal.ogr.ogr;
+import org.gdal.osr.CoordinateTransformation;
 import org.gdal.osr.SpatialReference;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 /**
  * Created by Ola-Mola on 07/11/16.
@@ -30,6 +35,8 @@ public class OrthoFileHandler implements Handler {
             return false;
         }
 
+        ogr.RegisterAll();
+        gdal.AllRegister(); //all gdal drivers configuration
         File[] files = res.listFiles(
                 new FileFilter() { //anonymous class
                     @Override
@@ -60,11 +67,35 @@ public class OrthoFileHandler implements Handler {
 
     public static boolean orthoCheck(File res) {
 
-        ogr.RegisterAll();
-        gdal.AllRegister();
+//        ogr.RegisterAll();
+//        gdal.AllRegister(); //all gdal drivers configuration
 
         Dataset ortho = gdal.Open(res.getPath());
         String prj = ortho.GetProjection();
+
+        double[] geoTrans = ortho.GetGeoTransform();
+
+        SpatialReference old_cs = new SpatialReference();
+        old_cs.ImportFromWkt(ortho.GetProjectionRef());
+        SpatialReference new_cs = new SpatialReference();
+        new_cs.ImportFromEPSG(4326);
+
+        CoordinateTransformation tranform = new CoordinateTransformation(old_cs,new_cs);
+
+
+        double minx = geoTrans[0];
+        double maxy = geoTrans[3];
+        double maxx = minx + geoTrans[1] * ortho.getRasterXSize();
+        double miny = maxy + geoTrans [5] * ortho.getRasterYSize();
+        double[] latlonMin = tranform.TransformPoint(minx,miny);
+        double[] latlonMax = tranform.TransformPoint(maxx,maxy);
+
+
+
+        Vector vector = new Vector();
+        InfoOptions infoOpt = new InfoOptions(vector);
+        String info = gdal.GDALInfo(ortho, infoOpt);
+
 
         if (!prj.isEmpty()) {
             SpatialReference srs = new SpatialReference(prj);
@@ -72,6 +103,11 @@ public class OrthoFileHandler implements Handler {
                 System.out.println("File: " + res.getAbsolutePath());
                 System.out.println(srs.GetAttrValue("projcs"));
                 System.out.println(srs.GetAttrValue("geogcs"));
+                System.out.println(info);
+               // System.out.println(vector);
+                System.out.println("minx = " + minx + "; " + "maxx = " + maxx + "; "
+                        + "miny = " + miny + "; " + "maxy = " + maxy);
+                System.out.println("lat/lonMax: " + latlonMax + "; lat/lonMin: " + latlonMin);
             }
             return true;
         }
