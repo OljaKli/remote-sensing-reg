@@ -28,6 +28,11 @@ public class OrthoFileHandler implements Handler {
 
     private long nGTifFiles = 0;
 
+    public OrthoFileHandler(){
+        ogr.RegisterAll();
+        gdal.AllRegister(); //all gdal drivers configuration
+    }
+
 
     @Override
     public boolean canHandle(File res) {
@@ -35,8 +40,7 @@ public class OrthoFileHandler implements Handler {
             return false;
         }
 
-        ogr.RegisterAll();
-        gdal.AllRegister(); //all gdal drivers configuration
+
         File[] files = res.listFiles(
                 new FileFilter() { //anonymous class
                     @Override
@@ -66,9 +70,6 @@ public class OrthoFileHandler implements Handler {
     }
 
     public static boolean orthoCheck(File res) {
-
-//        ogr.RegisterAll();
-//        gdal.AllRegister(); //all gdal drivers configuration
 
         Dataset ortho = gdal.Open(res.getPath());
         String prj = ortho.GetProjection();
@@ -105,9 +106,12 @@ public class OrthoFileHandler implements Handler {
                 System.out.println(srs.GetAttrValue("geogcs"));
                 System.out.println(info);
                // System.out.println(vector);
+//                System.out.println(prj);
                 System.out.println("minx = " + minx + "; " + "maxx = " + maxx + "; "
                         + "miny = " + miny + "; " + "maxy = " + maxy);
-                System.out.println("lat/lonMax: " + latlonMax + "; lat/lonMin: " + latlonMin);
+                System.out.println("lat/lonMax: " + latlonMax[0] + "; lat/lonMin: " + latlonMin[0]);
+                System.out.println("lat/lonMax: " + latlonMax[1] + "; lat/lonMin: " + latlonMin[1]);
+
             }
             return true;
         }
