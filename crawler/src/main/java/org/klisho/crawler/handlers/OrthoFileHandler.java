@@ -28,7 +28,7 @@ public class OrthoFileHandler implements Handler {
 
     private long nGTifFiles = 0;
 
-    public OrthoFileHandler(){
+    public OrthoFileHandler() {
         ogr.RegisterAll();
         gdal.AllRegister(); //all gdal drivers configuration
     }
@@ -52,8 +52,6 @@ public class OrthoFileHandler implements Handler {
                         String ext = FilenameUtils.getExtension(pathname.toString());
                         if (ext != null && ORTHO_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
                             return orthoCheck(pathname);
-//                            orthoCheck(pathname);
-//                            return true;
 
                             //TODO gdal check of raster (gtiff)
                         }
@@ -73,53 +71,49 @@ public class OrthoFileHandler implements Handler {
 
         Dataset ortho = gdal.Open(res.getPath());
         String prj = ortho.GetProjection();
+        if (prj != null && !prj.isEmpty()) {
+            double[] geoTrans = ortho.GetGeoTransform();
 
-        double[] geoTrans = ortho.GetGeoTransform();
+            SpatialReference old_cs = new SpatialReference();
+            old_cs.ImportFromWkt(ortho.GetProjectionRef());
+            SpatialReference new_cs = new SpatialReference();
+            new_cs.ImportFromEPSG(4326);
 
-        SpatialReference old_cs = new SpatialReference();
-        old_cs.ImportFromWkt(ortho.GetProjectionRef());
-        SpatialReference new_cs = new SpatialReference();
-        new_cs.ImportFromEPSG(4326);
-
-        CoordinateTransformation tranform = new CoordinateTransformation(old_cs,new_cs);
-
-
-        double minx = geoTrans[0];
-        double maxy = geoTrans[3];
-        double maxx = minx + geoTrans[1] * ortho.getRasterXSize();
-        double miny = maxy + geoTrans [5] * ortho.getRasterYSize();
-        double[] latlonMin = tranform.TransformPoint(minx,miny);
-        double[] latlonMax = tranform.TransformPoint(maxx,maxy);
+            CoordinateTransformation tranform = new CoordinateTransformation(old_cs, new_cs);
 
 
+            // if (prj != null && !prj.isEmpty()) {
+            double minx = geoTrans[0];
+            double maxy = geoTrans[3];
+            double maxx = minx + geoTrans[1] * ortho.getRasterXSize();
+            double miny = maxy + geoTrans[5] * ortho.getRasterYSize();
+            double[] latlonMin = tranform.TransformPoint(minx, miny);
+            double[] latlonMax = tranform.TransformPoint(maxx, maxy);
 
-        Vector vector = new Vector();
-        InfoOptions infoOpt = new InfoOptions(vector);
-        String info = gdal.GDALInfo(ortho, infoOpt);
+            Vector vector = new Vector();
+            InfoOptions infoOpt = new InfoOptions(vector);
+            String info = gdal.GDALInfo(ortho, infoOpt);
 
-
-        if (!prj.isEmpty()) {
             SpatialReference srs = new SpatialReference(prj);
             if (srs.IsProjected() == 1) {
                 System.out.println("File: " + res.getAbsolutePath());
                 System.out.println(srs.GetAttrValue("projcs"));
                 System.out.println(srs.GetAttrValue("geogcs"));
                 System.out.println(info);
-               // System.out.println(vector);
-//                System.out.println(prj);
+
                 System.out.println("minx = " + minx + "; " + "maxx = " + maxx + "; "
                         + "miny = " + miny + "; " + "maxy = " + maxy);
                 System.out.println("lat/lonMax: " + latlonMax[0] + "; lat/lonMin: " + latlonMin[0]);
                 System.out.println("lat/lonMax: " + latlonMax[1] + "; lat/lonMin: " + latlonMin[1]);
-
+                return true;
             }
-            return true;
-        }
-//        } else {
-//           // System.out.println("there is no ortho or DEM in selected path");
+            System.err.println("File: " + res.getAbsolutePath() + "file has unknown projection");
             return false;
-        //}
+        }
+        System.err.println("File: " + res.getAbsolutePath() + " has no projection determined");
+        return false;
     }
+
 
     @Override
     public void handle(File res) {
