@@ -8,16 +8,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Ola-Mola on 07/11/16.
+ * Created by Ola-Mola on 25/12/16.
  */
-public class PhotoScanFileHandler implements Handler {
-
-    private static final Set<String> PS_FILES_EXTENTIONS = new HashSet<String>() {{
-        add("psx");
-        add("psz");
+public class KmlHandler implements Handler{
+    private static final Set<String> KML_FILES_EXTENTIONS = new HashSet<String>() {{
+        add("kml");
+        //add("kmz");
     }};
 
-    private long nPSFiles = 0;
+    private long nKmlFiles = 0;
 
 
     @Override
@@ -30,21 +29,20 @@ public class PhotoScanFileHandler implements Handler {
                 new FileFilter() { //anonymous class
                     @Override
                     public boolean accept(File pathname) {
-                        if (!pathname.isFile()) {
-                            return false;
-                        }
-
                         String ext = FilenameUtils.getExtension(pathname.getAbsolutePath());
-                        if (ext != null && PS_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+                        if (ext != null && KML_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+                            if (!pathname.isFile()) {
+                                return false;
+                            }
+                            System.out.println(pathname.getAbsolutePath());
                             return true;
-
                         }
                         return false;
                     }
                 });
 
         if (files.length > 0) {
-            nPSFiles += files.length;
+            nKmlFiles += files.length;
             return true;
             //TODO check for better ext distinguishing
         }
@@ -57,15 +55,17 @@ public class PhotoScanFileHandler implements Handler {
         System.out.println(this);
     }
 
-    public long getnPSFiles() {
-        return nPSFiles;
+    public long getnKmlFiles() {
+        return nKmlFiles;
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("PhotoScanFileHandler{");
-        sb.append("nPSFiles=").append(nPSFiles);
+        final StringBuilder sb = new StringBuilder("KmlFileHandler{");
+        sb.append("nKmlFiles=").append(nKmlFiles);
         sb.append('}');
         return sb.toString();
     }
+
+
 }

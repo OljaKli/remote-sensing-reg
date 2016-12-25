@@ -12,16 +12,22 @@ import java.util.List;
 public class HandlersManager {
 
     private final List<Handler> handlers = new LinkedList<>();
+    private final List<PruneFilter> pruneFilters = new LinkedList<>();
+
 
     public static HandlersManager createDefaultHandlersManager() {
         HandlersManager mngr = new HandlersManager();
-        mngr.handlers.add(new ImageryDirHandler());
-        mngr.handlers.add(new PhotoScanFileHandler());
-        mngr.handlers.add(new OrthoFileHandler());
+        //mngr.handlers.add(new ImageryDirHandler());
+        //mngr.handlers.add(new PhotoScanFileHandler());
+        //mngr.handlers.add(new OrthoFileHandler());
+        mngr.handlers.add(new KmlHandler());
         //TODO add another handlers
+
+        mngr.pruneFilters.add(new SASPlanetPruneFilter());
 
         return mngr;
     }
+
 
     /**
      * apply handlers to the given resource
@@ -45,4 +51,12 @@ public class HandlersManager {
         return strB.toString();
     }
 
+    public boolean prune(File dir) {
+        for (PruneFilter filter : pruneFilters) {
+            if (filter.prune(dir)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
