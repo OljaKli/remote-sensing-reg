@@ -39,8 +39,6 @@ public class Scanner {
                     scan(file);
                 }
             }
-
-
         }
 
     }

@@ -21,13 +21,17 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
+    compile files ('/Users/Ola-Mola/Downloads/gdal-2.1.2/swig/java/gdal.jar')
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.21'
     // https://mvnrepository.com/artifact/commons-io/commons-io
     compile 'commons-io:commons-io:2.5'
 
 // https://mvnrepository.com/artifact/org.gdal/gdal
-    compile 'org.gdal:gdal:2.1.2'
+    //compile 'org.gdal:gdal:2.1.2'
+
+
+    compile 'org.postgresql:postgresql:9.4.1212.jre7'
 
     // Declare the dependency for your favourite test framework you want to use in your tests.
     // TestNG is also supported by the Gradle Test task. Just change the

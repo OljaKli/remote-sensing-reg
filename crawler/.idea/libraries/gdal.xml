@@ -1,16 +1,9 @@
 <component name="libraryTable">
   <library name="gdal">
     <CLASSES>
-      <root url="file://$USER_HOME$/Downloads/gdal-2.1.2/swig/java" />
-      <root url="file://$USER_HOME$/Downloads/gdal-2.1.2/swig/java" />
+      <root url="jar://$PROJECT_DIR$/lib/gdal.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <NATIVE>
-      <root url="file://$USER_HOME$/Downloads/gdal-2.1.2/swig/java" />
-    </NATIVE>
-    <SOURCES>
-      <root url="file://$USER_HOME$/Downloads/gdal-2.1.2/swig/java" />
-    </SOURCES>
-    <jarDirectory url="file://$USER_HOME$/Downloads/gdal-2.1.2/swig/java" recursive="false" />
+    <SOURCES />
   </library>
 </component>
