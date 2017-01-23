@@ -20,7 +20,9 @@ public class HandlersManager {
         //mngr.handlers.add(new ImageryDirHandler());
         //mngr.handlers.add(new PhotoScanFileHandler());
         //mngr.handlers.add(new OrthoFileHandler());
-        mngr.handlers.add(new KmlHandler());
+//        mngr.handlers.add(new KmlHandler());
+        mngr.handlers.add(new PStxtFileHandler());
+
         //TODO add another handlers
 
         mngr.pruneFilters.add(new SASPlanetPruneFilter());

@@ -34,6 +34,7 @@ public class JavaGIS {
             conn.close();
 //            System.out.println(r.toString());
 
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {

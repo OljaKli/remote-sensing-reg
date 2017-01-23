@@ -1,0 +1,66 @@
+<!--<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"-->
+         <!--xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">-->
+    <!--<modelVersion>4.0.0</modelVersion>-->
+
+    <!--<groupId>org.hibernate.spatial.tutorials</groupId>-->
+    <!--<artifactId>event-tutorial</artifactId>-->
+    <!--<version>1.0-SNAPSHOT</version>-->
+    <!--<packaging>jar</packaging>-->
+
+    <!--<name>event-tutorial</name>-->
+    <!--<url>http://maven.apache.org</url>-->
+
+    <!--<properties>-->
+        <!--<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+        <!--<hibernate.version>4.0.0.Final</hibernate.version>-->
+    <!--</properties>-->
+
+    <!--<build>-->
+        <!--<finalName>${artifactId}</finalName>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<source>1.6</source>-->
+                    <!--<target>1.6</target>-->
+                    <!--<encoding>UTF-8</encoding>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
+    <!--<dependencies>-->
+
+        <!--&lt;!&ndash;&lt;!&ndash; Hibernate Spatial &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;<groupId>org.hibernate</groupId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<artifactId>hibernate-spatial</artifactId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<version>4.0</version>&ndash;&gt;-->
+        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<dependency>&ndash;&gt;-->
+            <!--&lt;!&ndash;<groupId>org.hibernate</groupId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<artifactId>hibernate-entitymanager</artifactId>&ndash;&gt;-->
+            <!--&lt;!&ndash;<version>${hibernate.version}</version>&ndash;&gt;-->
+        <!--&lt;!&ndash;</dependency>&ndash;&gt;-->
+
+
+
+
+
+    <!--&lt;!&ndash; add repositories for JTS and Hibernate Spatial and Hibernate (JBoss) &ndash;&gt;-->
+    <!--<repositories>-->
+        <!--<repository>-->
+            <!--<id>OSGEO GeoTools repo</id>-->
+            <!--<url>http://download.osgeo.org/webdav/geotools</url>-->
+        <!--</repository>-->
+        <!--<repository>-->
+            <!--<id>Hibernate Spatial repo</id>-->
+            <!--<url>http://www.hibernatespatial.org/repository</url>-->
+        <!--</repository>-->
+        <!--&lt;!&ndash; add JBOSS repository for easy access to Hibernate libraries &ndash;&gt;-->
+        <!--<repository>-->
+            <!--<id>JBOSS</id>-->
+            <!--<url>https://repository.jboss.org/nexus/content/repositories/releases/</url>-->
+        <!--</repository>-->
+    <!--</repositories>-->
+<!--</project>-->
