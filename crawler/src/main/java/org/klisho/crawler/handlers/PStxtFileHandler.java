@@ -54,23 +54,15 @@ public class PStxtFileHandler implements Handler {
 //            return true;
 //            //TODO check for better ext distinguishing
 //        }
-        return false;
+        else return false;
     }
 
     @Override
     public void handle(File res) {
         System.out.println(res.getAbsolutePath());
-//        System.out.println(this);
-//        File [] files = res.listFiles();
-//        for (File file : files) {
         ArrayList<Point> points = PStxtParser.parse(res);
         for (Point point : points) {
             System.out.println(point);}
-//        }
-
-//        PStxtParser parser = new PStxtParser(res);
-//        points = parser.Parse(res);
-       //points = PStxtParser.Parse(res);
 
     }
 

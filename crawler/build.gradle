@@ -41,15 +41,25 @@ dependencies {
 // https://mvnrepository.com/artifact/org.gdal/gdal
     //compile 'org.gdal:gdal:2.1.2'
 
+//c3po connection pool
+    compile group: 'c3p0', name: 'c3p0', version: '0.9.0.4'
+    compile group: 'com.mchange', name: 'mchange-commons-java', version: '0.2.11'
+
 
     compile 'org.postgresql:postgresql:9.4.1212.jre7'
 
 //    complile 'org.hibernate:hibernate-core:5.2.6.Final'
     //compile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.5.Final'
-    compile 'org.hibernate:hibernate-core:4.3.5.Final'
-    compile 'org.hibernate:hibernate-spatial:5.1.0.Final'
+    compile 'org.hibernate:hibernate-core:5.2.8.Final'
+    compile 'org.hibernate:hibernate-spatial:5.2.8.Final'
+
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-spatial
   //  compile 'org.hibernate:hibernate-spatial:5.0.0.Beta2'
+
+
+    //hibernate c3po
+    compile 'org.hibernate:hibernate-c3p0:4.1.0.Final'
+
 
 
     // Declare the dependency for your favourite test framework you want to use in your tests.

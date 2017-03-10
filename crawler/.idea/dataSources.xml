@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="1271245623">
-    <data-source source="LOCAL" name="PostgreSQL - postgres@localhost" uuid="9062909b-9759-495c-b482-0b835a8bfe8b">
+  <component name="DataSourceManagerImpl" format="xml" hash="3032979692">
+    <data-source source="LOCAL" name="PostgreSQL - postgis_testOK@localhost" uuid="9062909b-9759-495c-b482-0b835a8bfe8b">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgis_testOK</jdbc-url>
     </data-source>
   </component>
 </project>

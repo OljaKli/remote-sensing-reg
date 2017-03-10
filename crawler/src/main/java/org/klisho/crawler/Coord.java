@@ -9,7 +9,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.gdal.ogr.Geometry;
 import org.hibernate.annotations.GenericGenerator;
+import org.postgis.Point;
 
 @Entity
 @Table( name = "coordinates" )
@@ -25,17 +27,31 @@ public class Coord {
         private Double altitude;
         private Date dateC;
 
+
+        private Point point;
+
+
         public Coord() {
             // this form used by Hibernate
         }
 
-        public Coord(String title, Double latitude, Double longitude, Double altitude, Date dateC) {
+    public String pointToString(Point point) {
+        final StringBuilder sb = new StringBuilder("Coord{");
+        sb.append("point=").append(point.getX());
+        sb.append(point.getY());
+        sb.append(point.getZ());
+        sb.append('}');
+        return sb.toString();
+    }
+
+    public Coord(String title, Double latitude, Double longitude, Double altitude, Date dateC, Point point) {
             // for application use, to create new events
             this.title = title;
             this.latitude = latitude;
             this.longitude = longitude;
             this.altitude = altitude;
             this.dateC = dateC;
+            this.point = point;
         }
 
         @Id
@@ -78,6 +94,10 @@ public class Coord {
         public Double getAltitude() {return altitude; }
 
         public void setAltitude(Double altitude) {this.altitude = altitude; }
+
+        public Point getPoint() {return point;}
+
+        public void setPoint(Point point) {this.point = point;}
 
     }
 
