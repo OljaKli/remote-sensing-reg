@@ -64,7 +64,8 @@ public class PStxtFileHandler implements Handler {
     @Override
     public void handle(File res) {
         System.out.println(res.getAbsolutePath());
-        ArrayList<Point> points = PStxtParser.parse(res);
+        PStxtParser parser = new PStxtParser();
+        ArrayList<Point> points = parser.parse(res);
         for (Point point : points) {
             System.out.println(point);}
 

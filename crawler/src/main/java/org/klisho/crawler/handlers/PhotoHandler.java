@@ -12,9 +12,9 @@ import org.klisho.crawler.utils.PStxtParser;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
+import static org.klisho.crawler.handlers.PStxtFileHandler.PSTXT_FILES_EXTENTIONS;
 
 /**
  * Created by Ola-Mola on 13/03/17.
@@ -41,16 +41,20 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
 
     private long nDirs = 0;
     private long nImages = 0;
-    File[] images = null;
 
+    private File[] images = null;
+    private String txtFile = null;
 
     @Override
     public boolean canHandle(File res) {
+
+        images = null;
+        txtFile = null;
+
         if (!res.isDirectory()) {
             return false;
         }
-        File[] files = res.listFiles(
-                new FileFilter() { //anonymous class
+        File[] files = res.listFiles(new FileFilter() {
                     @Override
                     public boolean accept(File pathname) {
                         if (!pathname.isFile()) {
@@ -61,15 +65,25 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
                         if (ext != null && IMAGERY_EXTENTIONS.contains(ext.toLowerCase())) {
                             return true;
                         }
+                        if (ext != null && PSTXT_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+                            txtFile = pathname.getAbsolutePath();
+                        }
                         return false;
                     }
                 });
 
-        if (files.length > 9) {
+
+
+        if (files.length > 9 && txtFile != null) {
+            Arrays.sort(files);
             nDirs++;
             nImages += files.length;
             images = files;
+
+
             return true;
+
+
 
             //TODO check for better ext distinguishing
         }
@@ -79,6 +93,7 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
 
     @Override
     public void handle(File res) {
+
         final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
                 .configure() // configures settings from hibernate.cfg.xml
                 .build();
@@ -94,14 +109,21 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
+        //здесь найти PStxt, его распарсить
+
 
         System.out.println(res.getAbsolutePath() + res.separator);
         System.out.println(this);
         int i = 0;
+        PStxtParser parser = new PStxtParser();
+
+        ArrayList<String> photoNames = new ArrayList<>();
+        photoNames = parser.searchAndParse(res);
+
         for (File image : images) {
-            Point centerCoord = PStxtParser.getPointByPhotoName(image);
+            Point centerCoord = parser.getPointByPhotoName(image, photoNames);
             System.out.println(centerCoord.getY());
-            session.save(new Photo((long) 5, centerCoord, null, res.getName(), new Date()));
+            session.save(new Photo((long) 5, centerCoord, null, image.getName(), new Date()));
 
             i++;
             if ((i % 10) == 0) {
