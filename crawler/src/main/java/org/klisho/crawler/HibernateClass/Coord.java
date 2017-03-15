@@ -1,4 +1,4 @@
-package org.klisho.crawler;
+package org.klisho.crawler.HibernateClass;
 
 import java.util.Date;
 import javax.persistence.Column;

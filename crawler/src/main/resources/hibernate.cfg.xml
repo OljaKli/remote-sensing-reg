@@ -44,11 +44,11 @@
 
 
         <!-- Names the annotated entity class -->
-        <mapping class="org.klisho.crawler.Coord"/>
+        <mapping class="org.klisho.crawler.HibernateClass.Coord"/>
 
-        <mapping class="org.klisho.crawler.Photo"/>
+        <mapping class="org.klisho.crawler.HibernateClass.Photo"/>
 
-        <mapping class="org.klisho.crawler.PhotoFolder"/>
+        <mapping class="org.klisho.crawler.HibernateClass.PhotoFolder"/>
 
     </session-factory>
 

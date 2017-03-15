@@ -1,21 +1,16 @@
 package org.klisho.crawler;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.*;
 import java.lang.*;
 
 import com.vividsolutions.jts.geom.*;
-import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
-import com.vividsolutions.jts.linearref.LinearGeometryBuilder;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 //import org.postgis.LinearRing;
-import org.postgis.PGgeometry;
+import org.klisho.crawler.HibernateClass.Photo;
 //import org.postgis.Point;
 //import org.postgis.Polygon;
 

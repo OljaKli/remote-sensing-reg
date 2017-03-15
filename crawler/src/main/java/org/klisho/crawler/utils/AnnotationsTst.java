@@ -11,7 +11,7 @@
 //import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 //
 //import junit.framework.TestCase;
-//import org.klisho.crawler.Coord;
+//import org.klisho.crawler.HibernateClass.Coord;
 //
 ///**
 // * Created by Ola-Mola on 30/01/17.

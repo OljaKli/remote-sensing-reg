@@ -17,8 +17,8 @@
       <schema id="4" parent="2" name="public">
         <object-id>2200</object-id>
         <comment>standard public schema</comment>
-        <introspection-state-number>1085</introspection-state-number>
-        <introspection-timestamp>2017-03-11.01:43:52.380</introspection-timestamp>
+        <introspection-state-number>1112</introspection-state-number>
+        <introspection-timestamp>2017-03-15.19:24:12.318</introspection-timestamp>
       </schema>
       <object-type id="5" parent="3" name="phototype">
         <object-id>28024</object-id>
@@ -100,8 +100,8 @@
         <sub-category>COMPOSITE</sub-category>
       </object-type>
       <object-type id="19" parent="4" name="phototype">
-        <object-id>36306</object-id>
-        <state-number>1084</state-number>
+        <object-id>44436</object-id>
+        <state-number>1111</state-number>
         <sub-kind>ENUM</sub-kind>
         <sub-category>ENUM</sub-category>
         <labels>RGB,RAW,NDVI,PSEUDO_RGB,THERMO</labels>
@@ -115,12 +115,12 @@
         <state-number>980</state-number>
       </table>
       <table id="22" parent="4" name="photo">
-        <object-id>36297</object-id>
-        <state-number>1083</state-number>
+        <object-id>44427</object-id>
+        <state-number>1110</state-number>
       </table>
       <table id="23" parent="4" name="photofolder">
-        <object-id>36317</object-id>
-        <state-number>1085</state-number>
+        <object-id>44447</object-id>
+        <state-number>1112</state-number>
       </table>
       <table id="24" parent="4" name="spatial_ref_sys">
         <object-id>18697</object-id>
@@ -6482,32 +6482,32 @@
         <data-type>geometry(LineString)</data-type>
       </column>
       <column id="1268" parent="22" name="photoid">
-        <state-number>1083</state-number>
+        <state-number>1110</state-number>
         <mandatory>1</mandatory>
         <data-type>integer</data-type>
       </column>
       <column id="1269" parent="22" name="folderid">
-        <state-number>1083</state-number>
+        <state-number>1110</state-number>
         <data-type>integer</data-type>
       </column>
       <column id="1270" parent="22" name="centercoord">
-        <state-number>1083</state-number>
+        <state-number>1110</state-number>
         <data-type>point</data-type>
       </column>
       <column id="1271" parent="22" name="extent">
-        <state-number>1083</state-number>
+        <state-number>1110</state-number>
         <data-type>geometry</data-type>
       </column>
       <column id="1272" parent="22" name="filename">
-        <state-number>1083</state-number>
+        <state-number>1110</state-number>
         <data-type>varchar(2048)</data-type>
       </column>
       <column id="1273" parent="22" name="time">
-        <state-number>1083</state-number>
+        <state-number>1110</state-number>
         <data-type>timestamp</data-type>
       </column>
       <index id="1274" parent="22" name="photo_pkey">
-        <object-id>36303</object-id>
+        <object-id>44433</object-id>
         <columns>photoid</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>
@@ -6518,24 +6518,24 @@
         <primary>1</primary>
       </key>
       <column id="1276" parent="23" name="folderid">
-        <state-number>1085</state-number>
+        <state-number>1112</state-number>
         <mandatory>1</mandatory>
         <data-type>integer</data-type>
       </column>
       <column id="1277" parent="23" name="folderpath">
-        <state-number>1085</state-number>
+        <state-number>1112</state-number>
         <data-type>text</data-type>
       </column>
       <column id="1278" parent="23" name="phototype">
-        <state-number>1085</state-number>
+        <state-number>1112</state-number>
         <data-type>phototype</data-type>
       </column>
       <column id="1279" parent="23" name="extend">
-        <state-number>1085</state-number>
+        <state-number>1112</state-number>
         <data-type>geometry</data-type>
       </column>
       <index id="1280" parent="23" name="photofolder_pkey">
-        <object-id>36323</object-id>
+        <object-id>44453</object-id>
         <columns>folderid</columns>
         <desc-columns></desc-columns>
         <unique>1</unique>

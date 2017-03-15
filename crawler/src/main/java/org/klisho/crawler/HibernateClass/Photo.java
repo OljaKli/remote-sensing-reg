@@ -1,4 +1,4 @@
-package org.klisho.crawler;
+package org.klisho.crawler.HibernateClass;
 
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;

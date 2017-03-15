@@ -2,7 +2,9 @@ package org.klisho.crawler.handlers;
 
 import org.apache.commons.io.FilenameUtils;
 import org.klisho.crawler.utils.PStxtParser;
-import org.postgis.Point;
+
+import com.vividsolutions.jts.geom.*;
+//import org.postgis.Point;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -15,11 +17,12 @@ import java.util.Set;
  */
 public class PStxtFileHandler implements Handler {
 
-    private static final Set<String> PSTXT_FILES_EXTENTIONS = new HashSet<String>() {{
+    public static final Set<String> PSTXT_FILES_EXTENTIONS = new HashSet<String>() {{
         add("txt");
     }};
 
     private long nPStxtFiles = 0;
+    private String PStxtPath = null;
 
 
     @Override
@@ -30,6 +33,7 @@ public class PStxtFileHandler implements Handler {
 
         String ext = FilenameUtils.getExtension(res.getAbsolutePath());
         if (ext != null && PSTXT_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+            PStxtPath = res.getAbsolutePath();
             return true;
         }
 
@@ -68,6 +72,10 @@ public class PStxtFileHandler implements Handler {
 
     public long getnPStxtFiles() {
         return nPStxtFiles;
+    }
+    public String getPStxtFilePath(File res) {
+
+        return PStxtPath;
     }
 
     @Override
