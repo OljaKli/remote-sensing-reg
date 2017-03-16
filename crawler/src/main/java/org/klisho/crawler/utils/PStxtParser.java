@@ -1,4 +1,5 @@
 package org.klisho.crawler.utils;
+
 import com.sun.deploy.model.Resource;
 import com.vividsolutions.jts.geom.*;
 import org.apache.commons.io.FilenameUtils;
@@ -25,7 +26,7 @@ import static org.klisho.crawler.handlers.PStxtFileHandler.PSTXT_FILES_EXTENTION
  */
 public class PStxtParser {
 
-    public  ArrayList<Point> points = new ArrayList<>();
+    public ArrayList<Point> points = new ArrayList<>();
     public ArrayList<String> photoNames = new ArrayList<>();
 
     public ArrayList<Point> parse(File res) {
@@ -56,18 +57,21 @@ public class PStxtParser {
 
     }
 
-    public ArrayList<String> searchAndParse (File res) {
+    public ArrayList<String> searchAndParse(File res) {
         String PStxtPath = null;
         File[] files = res.listFiles();
         Arrays.sort(files);
+
         for (File file : files) {
             String ext = FilenameUtils.getExtension(file.getAbsolutePath());
             if (ext != null && PSTXT_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
                 PStxtPath = file.getAbsolutePath();
-            }}
-        if (PStxtPath !=null){
-        parse(new File(PStxtPath));
+            }
         }
+        if (PStxtPath != null) {
+            parse(new File(PStxtPath));
+        }
+
         return photoNames;
     }
 
@@ -97,13 +101,15 @@ public class PStxtParser {
 //        return photoIndx;
 //    }
 
-    public  Integer getPhotoIndex (File photo, ArrayList<String> photoNamesAr) {
+    public Integer getPhotoIndex(File photo, ArrayList<String> photoNamesAr) {
         Integer photoIndx = null;
         String photoName = photo.getName();
 
-        for (String name : photoNamesAr){
-            if (name.equals(photoName)){
-                photoIndx = photoNamesAr.indexOf(name);}
+        for (String name : photoNamesAr) {
+//            if (name.equals(photoName)){
+            if (photoName.equals(name)) {
+                photoIndx = photoNamesAr.indexOf(name);
+            }
         }
         return photoIndx;
     }
@@ -111,8 +117,12 @@ public class PStxtParser {
 
 //TODO change constant read of PStxt file
 
-    public  Point getPointByIndex (Integer index) {
-        return points.get(index);
+    public Point getPointByIndex(Integer index) {
+        if (index != null) {
+            return points.get(index);
+        } else {
+            return null;
+        }
     }
 
     public Point getPointByPhotoName(File photo, ArrayList<String> photoNamesAr) {

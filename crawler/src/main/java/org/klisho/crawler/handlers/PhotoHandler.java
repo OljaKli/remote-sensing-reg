@@ -75,10 +75,11 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
 
 
         if (files.length > 9 && txtFile != null) {
-            Arrays.sort(files);
+            //Arrays.sort(files);
             nDirs++;
             nImages += files.length;
             images = files;
+            Arrays.sort(images);
 
 
             return true;
@@ -113,17 +114,21 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
 
 
         System.out.println(res.getAbsolutePath() + res.separator);
-        System.out.println(this);
         int i = 0;
         PStxtParser parser = new PStxtParser();
 
         ArrayList<String> photoNames = new ArrayList<>();
         photoNames = parser.searchAndParse(res);
 
+
         for (File image : images) {
             Point centerCoord = parser.getPointByPhotoName(image, photoNames);
-            System.out.println(centerCoord.getY());
-            session.save(new Photo((long) 5, centerCoord, null, image.getName(), new Date()));
+            if (centerCoord != null){System.out.println(centerCoord.getY());}
+            else {
+                System.out.println(image.getAbsolutePath() + " has no coord in PStxt file");
+            }
+//            session.save(new Photo((long) 5, centerCoord, null, image.getName(), new Date()));
+            session.save(new Photo((long) 5, centerCoord, null, image.getAbsolutePath(), new Date()));
 
             i++;
             if ((i % 10) == 0) {
