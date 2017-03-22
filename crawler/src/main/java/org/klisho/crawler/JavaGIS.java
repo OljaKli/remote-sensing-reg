@@ -75,7 +75,7 @@ public class JavaGIS {
 
 //        @SuppressWarnings({ "unchecked" })
 //        // create a couple of events...
-//        Session session = sessionFactory.openSession();
+//        SessionF session = sessionFactory.openSession();
 //        session.beginTransaction();
 //        session.save( new Coord( "Our very first coord!", 30.971, 60.451, 21.371, new Date(),
 //                new Point(30.971, 60.451, 21.371 )) );
@@ -86,7 +86,7 @@ public class JavaGIS {
 
         // create a couple of events...
 //        @SuppressWarnings({ "unchecked" })
-//        Session session2 = sessionFactory.openSession();
+//        SessionF session2 = sessionFactory.openSession();
 //        session2.beginTransaction();
 //        session2.save(new Photo((long) 5, new Point(30.971, 60.451, 21.371 ), new Polygon(new LinearRing[] {
 //                new LinearRing(
@@ -127,7 +127,7 @@ public class JavaGIS {
         Point point = geomFac.createPoint(new Coordinate(10.11, 40.44, 50.11));
 
 
-        session2.save(new Photo((long) 5, point, poly, "fileName", new Date()));
+       // session2.save(new Photo((long) 5, point, poly, "fileName", new Date()));
 
 
 //        session.save( new Coord ( "Follow up coord!", 31.971, 61.451, 23.371, new Date(),

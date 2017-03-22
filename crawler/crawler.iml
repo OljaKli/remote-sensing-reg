@@ -79,11 +79,11 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-spatial/5.1.0.Final/afde4ac2ff69fe9fcff792a3c09cb3f6f6a7f787/hibernate-spatial-5.1.0.Final.jar!/"/>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-spatial/5.2.8.Final/d18253b82845046b6ee72f80b6e46817b868956a/hibernate-spatial-5.2.8.Final.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-spatial/5.1.0.Final/1bc501cc990389f2c52035b9404a34228f1d6459/hibernate-spatial-5.1.0.Final-sources.jar!/"/>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-spatial/5.2.8.Final/1ac27c12de2162bc8d6cd1854fd5b48a26c30615/hibernate-spatial-5.2.8.Final-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -95,6 +95,28 @@
         <JAVADOC/>
         <SOURCES>
           <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.hibernate/hibernate-c3p0/4.1.0.Final/4f22e17c7395241c3079eed896f05efc00ffdbc7/hibernate-c3p0-4.1.0.Final-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.9.7/6eb2e87ddb09e944bb88f06f19ba0638d4607ffd/joda-time-2.9.7.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/joda-time/joda-time/2.9.7/7099392eb30172b794b270401c2462e1a27ae63/joda-time-2.9.7-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.drewnoakes/metadata-extractor/2.10.1/e1852a8f519dbb0196fdb41bf2c584a8858189f8/metadata-extractor-2.10.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.drewnoakes/metadata-extractor/2.10.1/1ae6c794cd3639597398b15df10f78b4d02f4323/metadata-extractor-2.10.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -229,22 +251,22 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.geolatte/geolatte-geom/1.0.1/f948173e0fa9c1b8c256b52453e092cf8ad0fa13/geolatte-geom-1.0.1.jar!/"/>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.geolatte/geolatte-geom/1.0.6/de7824b08d8bf27f65f79a0645fb0c46c2820ad5/geolatte-geom-1.0.6.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.geolatte/geolatte-geom/1.0.1/b4c060b5e909c229a5ccf9ecefcc4128e8d70d8d/geolatte-geom-1.0.1-sources.jar!/"/>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.geolatte/geolatte-geom/1.0.6/eab69843a1aa03a49d426f4790085965e9291f2d/geolatte-geom-1.0.6-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/1.0.b2/3136ca936f64c9d68529f048c2618bd356bf85c9/xml-apis-1.0.b2.jar!/"/>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.adobe.xmp/xmpcore/5.1.3/57e70c3b10ff269fff9adfa7a31d61af0df30757/xmpcore-5.1.3.jar!/"/>
         </CLASSES>
         <JAVADOC/>
         <SOURCES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/xml-apis/xml-apis/1.0.b2/d8525661c5a0a05702fa41873d250d135031ec25/xml-apis-1.0.b2-sources.jar!/"/>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.adobe.xmp/xmpcore/5.1.3/908013b9ec0696467b3f0e4156b510ae0f6c84d/xmpcore-5.1.3-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>
@@ -256,17 +278,6 @@
         <JAVADOC/>
         <SOURCES>
           <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.vividsolutions/jts/1.13/ee922fa0a39de08d193337739d336779e3dfa774/jts-1.13-sources.jar!/"/>
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.apfloat/apfloat/1.8.2/9be79aa0bc2d3439116ff5bd6e136e8fee61c834/apfloat-1.8.2.jar!/"/>
-        </CLASSES>
-        <JAVADOC/>
-        <SOURCES>
-          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/org.apfloat/apfloat/1.8.2/56988999114548af6cdb3801f3008ba350ff9a5b/apfloat-1.8.2-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>

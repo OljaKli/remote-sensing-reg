@@ -4,6 +4,7 @@ import org.klisho.crawler.handlers.Handler;
 import org.klisho.crawler.handlers.HandlersManager;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,8 +24,12 @@ public class Scanner {
 
     public void scan(File dir) {
         File[] listOfFiles = dir.listFiles();
+        if (listOfFiles != null) {
+            Arrays.sort(listOfFiles);
+        }
 
         for (File file : listOfFiles) {
+
             if (file.isFile()) {
                 // System.out.println(file.getName());
                 handlersMngr.handle(file);
@@ -40,6 +45,7 @@ public class Scanner {
                 }
             }
         }
+        //hm.closeSession();
 
     }
 

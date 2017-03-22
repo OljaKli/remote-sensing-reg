@@ -29,7 +29,13 @@ public class Photo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long photoId;
 
-        private Long folderId;
+
+        @ManyToOne
+        @JoinColumn(name = "folderId",
+                foreignKey = @ForeignKey(name = "folderId")
+        )
+        private PhotoFolder folder; //Long
+
         private Point centerCoordinate;
 
         private com.vividsolutions.jts.geom.Geometry extent;
@@ -41,9 +47,9 @@ public class Photo {
             // this form used by Hibernate
         }
 
-        public Photo(Long folderId, Point centerCoordinate, Polygon extend, String fileName, Date timeStamp) {
+        public Photo(PhotoFolder folder, Point centerCoordinate, Polygon extend, String fileName, Date timeStamp) {
             // for application use, to create new events
-            this.folderId = folderId;
+            this.folder = folder;
             this.centerCoordinate = centerCoordinate;
             this.extent = extend;
             this.fileName = fileName;
@@ -60,12 +66,17 @@ public class Photo {
             this.photoId = id;
         }
 
-        public Long getFolderId() {
-            return folderId;
-        }
+//        public Long getFolderId() {
+//            return this.folder.getId();
+//        }
 
-        public void setFolderId(Long folderId) {
-            this.folderId = folderId;
+//        public void setFolderId(Long folderId) {
+//            this.folderId = folderId;
+//        }
+
+
+        public PhotoFolder getFolder(){
+            return folder;
         }
 
         public Point getCenterCoordinate() {

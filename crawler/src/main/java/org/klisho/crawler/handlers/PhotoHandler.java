@@ -8,7 +8,10 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.klisho.crawler.HibernateClass.Photo;
+import org.klisho.crawler.HibernateClass.PhotoFolder;
 import org.klisho.crawler.utils.PStxtParser;
+import org.klisho.crawler.utils.PhotoParser;
+import org.klisho.crawler.utils.PhotoParserLight;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -19,25 +22,33 @@ import static org.klisho.crawler.handlers.PStxtFileHandler.PSTXT_FILES_EXTENTION
 /**
  * Created by Ola-Mola on 13/03/17.
  */
-public class PhotoHandler implements Handler{
+public class PhotoHandler implements Handler {
 
-//    ImageryDirHandler idh = new ImageryDirHandler();
+
+    //    ImageryDirHandler idh = new ImageryDirHandler();
 //
 //    public boolean canHandle(File res) {
 //        return idh.canHandle(res);
 //    }
 //
 //
-private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
-    add("jpeg");
-    add("jpg");
+    private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
+        add("jpeg");
+        add("jpg");
 //    add("png");
 //    add("arw");
 //    add("tif");
 //    add("tiff");
-}};
+    }};
 
-    private static SessionFactory sessionFactory;
+    Session session;
+
+    public PhotoHandler(Session session) {
+        this.session = session;
+    }
+
+
+//    private static SessionFactory sessionFactory;
 
     private long nDirs = 0;
     private long nImages = 0;
@@ -55,23 +66,22 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
             return false;
         }
         File[] files = res.listFiles(new FileFilter() {
-                    @Override
-                    public boolean accept(File pathname) {
-                        if (!pathname.isFile()) {
-                            return false;
-                        }
+            @Override
+            public boolean accept(File pathname) {
+                if (!pathname.isFile()) {
+                    return false;
+                }
 
-                        String ext = FilenameUtils.getExtension(pathname.getAbsolutePath());
-                        if (ext != null && IMAGERY_EXTENTIONS.contains(ext.toLowerCase())) {
-                            return true;
-                        }
-                        if (ext != null && PSTXT_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
-                            txtFile = pathname.getAbsolutePath();
-                        }
-                        return false;
-                    }
-                });
-
+                String ext = FilenameUtils.getExtension(pathname.getAbsolutePath());
+                if (ext != null && IMAGERY_EXTENTIONS.contains(ext.toLowerCase())) {
+                    return true;
+                }
+                if (ext != null && PSTXT_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+                    txtFile = pathname.getAbsolutePath();
+                }
+                return false;
+            }
+        });
 
 
         if (files.length > 9 && txtFile != null) {
@@ -85,7 +95,6 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
             return true;
 
 
-
             //TODO check for better ext distinguishing
         }
         return false;
@@ -95,20 +104,19 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
     @Override
     public void handle(File res) {
 
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure() // configures settings from hibernate.cfg.xml
-                .build();
-        try {
-            sessionFactory = new MetadataSources( registry ).buildMetadata()
-                    .buildSessionFactory();
-        }
-        catch (Exception e) {
-            System.err.println(e);
-            StandardServiceRegistryBuilder.destroy( registry );
-            return;
-        }
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+//        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+//                .configure() // configures settings from hibernate.cfg.xml
+//                .build();
+//        try {
+//            sessionFactory = new MetadataSources( registry ).buildMetadata()
+//                    .buildSessionFactory();
+//        }
+//        catch (Exception e) {
+//            System.err.println(e);
+//            StandardServiceRegistryBuilder.destroy( registry );
+//            return;
+//        }
+//        Session session = sessionFactory.openSession();
 
         //здесь найти PStxt, его распарсить
 
@@ -120,15 +128,38 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
         ArrayList<String> photoNames = new ArrayList<>();
         photoNames = parser.searchAndParse(res);
 
+        session.beginTransaction();
+
+        PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, null);
+        session.save(folder);
+
+        session.getTransaction().commit();
+        session.beginTransaction();
+
+        PhotoParserLight parserLight = new PhotoParserLight();
+        ArrayList<Date> imgTimes = parserLight.getAvgExposureTime(images);
 
         for (File image : images) {
+
+//        for (int i = 0; i<images.length; i++) {
             Point centerCoord = parser.getPointByPhotoName(image, photoNames);
-            if (centerCoord != null){System.out.println(centerCoord.getY());}
-            else {
+
+//            PhotoParser photoParser = new PhotoParser();
+//            Date exposureTime = photoParser.getExposureTime(image);
+
+
+
+            if (centerCoord != null) {
+                System.out.println(centerCoord.getY());
+            } else {
                 System.out.println(image.getAbsolutePath() + " has no coord in PStxt file");
             }
+
+
 //            session.save(new Photo((long) 5, centerCoord, null, image.getName(), new Date()));
-            session.save(new Photo((long) 5, centerCoord, null, image.getAbsolutePath(), new Date()));
+//            session.save(new Photo(folder, centerCoord, null, image.getAbsolutePath(), exposureTime));
+            session.save(new Photo(folder, centerCoord, null, image.getAbsolutePath(), null));
+//                    exposureTime));
 
             i++;
             if ((i % 10) == 0) {
@@ -138,14 +169,7 @@ private static final Set<String> IMAGERY_EXTENTIONS = new HashSet<String>() {{
         }
 //TODO create session opening method in handler mngr
         session.getTransaction().commit();
-        session.close();
-
-
-
-
-
-
-
+//        session.close();
     }
 
     public long getDirsNum() {

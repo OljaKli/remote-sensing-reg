@@ -4,7 +4,7 @@
 //import java.util.List;
 //
 //import com.vividsolutions.jts.geom.Coordinate;
-//import org.hibernate.Session;
+//import org.hibernate.SessionF;
 //import org.hibernate.SessionFactory;
 //import org.hibernate.boot.MetadataSources;
 //import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -46,7 +46,7 @@
 //    @SuppressWarnings({ "unchecked" })
 //    public void testBasicUsage() {
 //        // create a couple of events...
-//        Session session = sessionFactory.openSession();
+//        SessionF session = sessionFactory.openSession();
 //        session.beginTransaction();
 //        session.save( new Coord( "Our very first coord!", 30.97, 60.45, 21.37, new Date() ) );
 //        session.save( new Coord ( "Follow up coord!", 31.97, 61.45, 23.37, new Date() ) );

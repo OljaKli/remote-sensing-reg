@@ -6,9 +6,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.Session;
 import org.klisho.crawler.handlers.Handler;
 import org.klisho.crawler.handlers.HandlersManager;
 import org.klisho.crawler.handlers.ImageryDirHandler;
+import org.klisho.crawler.utils.SessionF;
 
 public class CrawlerMain {
 
@@ -21,10 +23,17 @@ public class CrawlerMain {
 
         File root = new File(path);
         if (root.exists() && root.isDirectory()) {
+
+
+
             HandlersManager mngr = HandlersManager.createDefaultHandlersManager();
 
             Scanner scanner = new Scanner(mngr);
             scanner.scan(root);
+
+            mngr.closeSession();
+
+
         } else {
             System.err.println("directory is not available: " + path);
         }

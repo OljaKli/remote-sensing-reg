@@ -1,6 +1,5 @@
 package org.klisho.crawler.utils;
 
-import com.sun.deploy.model.Resource;
 import com.vividsolutions.jts.geom.*;
 import org.apache.commons.io.FilenameUtils;
 import org.klisho.crawler.handlers.PStxtFileHandler;

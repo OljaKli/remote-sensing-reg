@@ -1,5 +1,7 @@
 package org.klisho.crawler.HibernateClass;
 
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GenericGenerator;
 //import org.postgis.Point;
 //import org.postgis.Polygon;
@@ -7,7 +9,7 @@ import com.vividsolutions.jts.geom.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by Ola-Mola on 08/03/17.
@@ -19,11 +21,12 @@ import java.util.Date;
 public class PhotoFolder {
 
     @Id
+    @Generated(value= GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long folderId;
-
     private String folderPath;
 
+    @Enumerated(EnumType.ORDINAL)
     private PhotoType photoType;
 
     public  enum PhotoType {
@@ -33,8 +36,20 @@ public class PhotoFolder {
         PSEUDO_RGB,
         THERMO
     }
-
     private Polygon extend;
+
+
+
+    //
+   // private Set<Photo> photos = new HashSet<>(0);
+
+
+//
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "folder_id")
+//    private Set<Photo> photos = new HashSet<Photo>();
+
+    @OneToMany (mappedBy = "folder")
+    private List<Photo> photos = new ArrayList<>();
 
 
 
@@ -42,13 +57,20 @@ public class PhotoFolder {
         // this form used by Hibernate
     }
 
-    public PhotoFolder(Long folderId, String folderPath, PhotoType photoType, Polygon extend) {
+    public PhotoFolder(String folderPath, PhotoType photoType, Polygon extend) {
         // for application use, to create new events
-        this.folderId = folderId;
+
         this.folderPath = folderPath;
         this.photoType = photoType;
         this.extend = extend;
     }
+
+//    public PhotoFolder(String folderPath, PhotoType photoType, Polygon extend, Set<Photo> photos){
+//        this.folderPath = folderPath;
+//        this.photoType = photoType;
+//        this.extend = extend;
+//        this.photos = photos;
+//    }
 
    public Long getId() {
         return folderId;
@@ -77,5 +99,13 @@ public class PhotoFolder {
     public Polygon getExtend() {return extend; }
 
     public void setExtend(Polygon extend) {this.extend = extend; }
+
+
+    public void setFolderPhotos(List<Photo> photos) {
+        this.photos = photos;
+    }
+    public List<Photo> getFodlerPhotos() {
+        return this.photos;
+    }
 
 }
