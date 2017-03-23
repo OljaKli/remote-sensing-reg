@@ -24,6 +24,11 @@ public class Scanner {
 
     public void scan(File dir) {
         File[] listOfFiles = dir.listFiles();
+        if (listOfFiles == null) {
+            System.err.println("Failed to read content of " + dir.getAbsolutePath());
+            return ;
+        }
+
         if (listOfFiles != null) {
             Arrays.sort(listOfFiles);
         }

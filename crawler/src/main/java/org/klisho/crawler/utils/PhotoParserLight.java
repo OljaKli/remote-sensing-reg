@@ -43,21 +43,22 @@ public class PhotoParserLight {
         return date;
     }
 
+    private static final int MAX_PHOTOS_ACTUALLY_READ = 10;
 
     public ArrayList<Date> getAvgExposureTime(File[] images) {
-        Integer length = images.length;
-        ArrayList<Date> times = new ArrayList<>(length);
+        ArrayList<Date> times = new ArrayList<>(images.length);
 
-        if (images.length > 10) {
-            File firstPhoto = images[10]; //eleventh image
+        for (int i = 0; i <= Math.min(images.length, MAX_PHOTOS_ACTUALLY_READ); i++) {
+            Date imageTime = getExposureTime(images[i]);
+            times.add(imageTime);
+        }
 
-            File lastPhoto = images[length - 1];
+        if (images.length > MAX_PHOTOS_ACTUALLY_READ) { // 11
+            File firstPhoto = images[MAX_PHOTOS_ACTUALLY_READ - 1]; //eleventh image
+            File lastPhoto = images[images.length - 1];
 
-//        Period period = Period.between(firstPhotoTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
-//                lastPhotoTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
             firstPhotoTime = getExposureTime(firstPhoto);
             lastPhotoTime = getExposureTime(lastPhoto);
-
 
             if (firstPhotoTime != null && lastPhotoTime != null) {
                 DateTime first = new DateTime(firstPhotoTime);
@@ -65,16 +66,10 @@ public class PhotoParserLight {
                 org.joda.time.Period period = new org.joda.time.Period(first, last);
 
                 double dSec = (double)(period.getSeconds()+period.getMinutes()*60);
-                double interval =  dSec * 1000.0 / (length-11);
+                double interval =  dSec * 1000.0 / (images.length - MAX_PHOTOS_ACTUALLY_READ);
 
-
-                for (int i = 10; i >= 0; i--) {
-                    DateTime imageTime = first.minusMillis((int)(interval * i));
-                    times.add(imageTime.toDate());
-                }
-
-                for (int j = 11; j < length; j++) {
-                    DateTime imageTime = first.plusMillis((int)(interval * (j - 10)));
+                for (int i = MAX_PHOTOS_ACTUALLY_READ; i < images.length; i++) {
+                    DateTime imageTime = first.plusMillis((int)(interval * (i - MAX_PHOTOS_ACTUALLY_READ + 1)));
                     times.add(imageTime.toDate());
                 }
             }

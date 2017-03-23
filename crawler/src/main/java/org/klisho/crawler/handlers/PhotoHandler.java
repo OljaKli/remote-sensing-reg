@@ -139,26 +139,25 @@ public class PhotoHandler implements Handler {
         PhotoParserLight parserLight = new PhotoParserLight();
         ArrayList<Date> imgTimes = parserLight.getAvgExposureTime(images);
 
-        for (File image : images) {
+//        for (File image : images) {
+        for (int j = 0; j<images.length; j++) {
 
 //        for (int i = 0; i<images.length; i++) {
-            Point centerCoord = parser.getPointByPhotoName(image, photoNames);
+            Point centerCoord = parser.getPointByPhotoName(images[j], photoNames);
 
 //            PhotoParser photoParser = new PhotoParser();
 //            Date exposureTime = photoParser.getExposureTime(image);
 
-
-
             if (centerCoord != null) {
                 System.out.println(centerCoord.getY());
             } else {
-                System.out.println(image.getAbsolutePath() + " has no coord in PStxt file");
+                System.out.println(images[j].getAbsolutePath() + " has no coord in PStxt file");
             }
 
 
 //            session.save(new Photo((long) 5, centerCoord, null, image.getName(), new Date()));
 //            session.save(new Photo(folder, centerCoord, null, image.getAbsolutePath(), exposureTime));
-            session.save(new Photo(folder, centerCoord, null, image.getAbsolutePath(), null));
+            session.save(new Photo(folder, centerCoord, null, images[j].getAbsolutePath(), imgTimes.get(j)));
 //                    exposureTime));
 
             i++;
