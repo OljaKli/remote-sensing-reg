@@ -1,7 +1,9 @@
 package org.klisho.crawler.handlers;
 
+import com.vividsolutions.jts.geom.Geometry;
 import org.apache.commons.io.FilenameUtils;
 import com.vividsolutions.jts.geom.*;
+import org.gdal.ogr.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -12,6 +14,7 @@ import org.klisho.crawler.HibernateClass.PhotoFolder;
 import org.klisho.crawler.utils.PStxtParser;
 import org.klisho.crawler.utils.PhotoParser;
 import org.klisho.crawler.utils.PhotoParserLight;
+import org.opensphere.geometry.algorithm.ConcaveHull;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -128,22 +131,35 @@ public class PhotoHandler implements Handler {
         ArrayList<String> photoNames = new ArrayList<>();
         photoNames = parser.searchAndParse(res);
 
+    //    session.beginTransaction();
+
         session.beginTransaction();
 
-        PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, null);
-        session.save(folder);
+        ArrayList<Point> points = parser.points;
+        GeometryFactory factory = new GeometryFactory();
+        Geometry[] geomArray = factory.toGeometryArray(points);
+        GeometryCollection gc = factory.createGeometryCollection(geomArray);
+        ConcaveHull ch = new ConcaveHull(gc, 0.001);
+        Geometry concaveHull = ch.getConcaveHull();
 
+        PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, (Polygon) concaveHull);
+        session.save(folder);
         session.getTransaction().commit();
+
+
         session.beginTransaction();
 
         PhotoParserLight parserLight = new PhotoParserLight();
         ArrayList<Date> imgTimes = parserLight.getAvgExposureTime(images);
+
+
 
 //        for (File image : images) {
         for (int j = 0; j<images.length; j++) {
 
 //        for (int i = 0; i<images.length; i++) {
             Point centerCoord = parser.getPointByPhotoName(images[j], photoNames);
+            points.add(centerCoord);
 
 //            PhotoParser photoParser = new PhotoParser();
 //            Date exposureTime = photoParser.getExposureTime(image);
@@ -166,6 +182,10 @@ public class PhotoHandler implements Handler {
                 session.beginTransaction();
             }
         }
+
+
+
+
 //TODO create session opening method in handler mngr
         session.getTransaction().commit();
 //        session.close();
