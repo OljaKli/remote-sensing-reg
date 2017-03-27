@@ -63,6 +63,9 @@ dependencies {
     //joda time
     compile group: 'joda-time', name: 'joda-time', version: '2.9.7'
 
+    //java Api kml
+    compile group: 'de.micromata.jak', name: 'JavaAPIforKml', version: '2.2.1'
+
 
     //metadata extractor
     compile 'com.drewnoakes:metadata-extractor:2.10.1'

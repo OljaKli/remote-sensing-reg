@@ -12,7 +12,7 @@ import java.util.Set;
  * Created by Ola-Mola on 25/12/16.
  */
 public class KmlHandler implements Handler{
-    private static final Set<String> KML_FILES_EXTENTIONS = new HashSet<String>() {{
+    public static final Set<String> KML_FILES_EXTENTIONS = new HashSet<String>() {{
         add("kml");
         //add("kmz");
     }};
@@ -54,6 +54,7 @@ public class KmlHandler implements Handler{
     public void handle(File res) {
         System.out.println(res.getAbsolutePath() + res.separator);
         System.out.println(this);
+
 
     }
 

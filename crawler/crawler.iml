@@ -112,6 +112,17 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/de.micromata.jak/JavaAPIforKml/2.2.1/337fff414a9fa7392f7bb66632cc1772943571a8/JavaAPIforKml-2.2.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/de.micromata.jak/JavaAPIforKml/2.2.1/a72f7348892282f7b2afba63260f11a323b8c4a1/JavaAPIforKml-2.2.1-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.drewnoakes/metadata-extractor/2.10.1/e1852a8f519dbb0196fdb41bf2c584a8858189f8/metadata-extractor-2.10.1.jar!/"/>
         </CLASSES>
         <JAVADOC/>
@@ -262,6 +273,28 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.sun.xml.bind/jaxb-impl/2.2/43b5ca50bcae275910515749dfc302a679a89714/jaxb-impl-2.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.sun.xml.bind/jaxb-impl/2.2/ce672a2bb2d2e0df2eb5a10f706cabec99e76de2/jaxb-impl-2.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.sun.xml.bind/jaxb-xjc/2.2/a2c1f445e24b9aa4ad2ae499c246bfdc07e5ad79/jaxb-xjc-2.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.sun.xml.bind/jaxb-xjc/2.2/5668cc3c9fd22d687121e9155bd061bd1f358b3d/jaxb-xjc-2.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
           <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.adobe.xmp/xmpcore/5.1.3/57e70c3b10ff269fff9adfa7a31d61af0df30757/xmpcore-5.1.3.jar!/"/>
         </CLASSES>
         <JAVADOC/>
@@ -278,6 +311,39 @@
         <JAVADOC/>
         <SOURCES>
           <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/com.vividsolutions/jts/1.13/ee922fa0a39de08d193337739d336779e3dfa774/jts-1.13-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/javax.xml.bind/jaxb-api/2.2/d68570e722cffe2000358ce9c661a0b0bf1ebe11/jaxb-api-2.2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/javax.xml.bind/jaxb-api/2.2/bb17675f5f7bb5654e95962944ca1e3620963460/jaxb-api-2.2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/javax.xml.stream/stax-api/1.0-2/d6337b0de8b25e53e81b922352fbea9f9f57ba0b/stax-api-1.0-2.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/javax.xml.stream/stax-api/1.0-2/dd58a0151c110e27c6c18abd45b01792f46d3fcd/stax-api-1.0-2-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/javax.activation/activation/1.1/e6cb541461c2834bdea3eb920f1884d1eb508b50/activation-1.1.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/Ola-Mola/.gradle/caches/modules-2/files-2.1/javax.activation/activation/1.1/3697e9f67a2ed7ac5f589cff30f21173299440/activation-1.1-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>

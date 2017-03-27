@@ -128,4 +128,31 @@ public class PStxtParser {
         Integer index = getPhotoIndex(photo, photoNamesAr);
         return getPointByIndex(index);
     }
+
+    public Integer getShiftMoment (ArrayList<Point> points) {
+        Integer shift = null;
+
+        int j = 0;
+
+        while (shift == null && j < points.size()-1) {
+            double currentZ = points.get(j).getCoordinate().z;
+            double nextZ = points.get(j + 1).getCoordinate().z;
+            double dif = nextZ - currentZ;
+            if (dif > 24.0) {
+                shift = j + 1;
+            }
+            j++;
+        }
+//        for (int i = 0; i < points.size() - 1; i++) {
+//            double currentZ = points.get(i).getCoordinate().z;
+//            double nextZ = points.get(i + 1).getCoordinate().z;
+//            double dif = nextZ - currentZ;
+//            if (dif > 24.0) {
+//                shift = i + 1;
+//            }
+////            //TODO: exit from the cycle after shift =! null
+//        }
+        return shift;
+    }
+
 }

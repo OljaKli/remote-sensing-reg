@@ -1,6 +1,12 @@
 package org.klisho.crawler.handlers;
 
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
+import de.micromata.opengis.kml.v_2_2_0.*;
+import de.micromata.opengis.kml.v_2_2_0.Coordinate;
+import de.micromata.opengis.kml.v_2_2_0.LinearRing;
 import org.apache.commons.io.FilenameUtils;
 import com.vividsolutions.jts.geom.*;
 import org.gdal.ogr.*;
@@ -11,6 +17,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.klisho.crawler.HibernateClass.Photo;
 import org.klisho.crawler.HibernateClass.PhotoFolder;
+import org.klisho.crawler.utils.KmlFileParser;
 import org.klisho.crawler.utils.PStxtParser;
 import org.klisho.crawler.utils.PhotoParser;
 import org.klisho.crawler.utils.PhotoParserLight;
@@ -20,6 +27,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.*;
 
+import static org.klisho.crawler.handlers.KmlHandler.KML_FILES_EXTENTIONS;
 import static org.klisho.crawler.handlers.PStxtFileHandler.PSTXT_FILES_EXTENTIONS;
 
 /**
@@ -58,12 +66,14 @@ public class PhotoHandler implements Handler {
 
     private File[] images = null;
     private String txtFile = null;
+    private String kmlFile = null;
 
     @Override
     public boolean canHandle(File res) {
 
         images = null;
         txtFile = null;
+        kmlFile = null;
 
         if (!res.isDirectory()) {
             return false;
@@ -81,6 +91,9 @@ public class PhotoHandler implements Handler {
                 }
                 if (ext != null && PSTXT_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
                     txtFile = pathname.getAbsolutePath();
+                }
+                if (ext != null && KML_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+                    kmlFile = pathname.getAbsolutePath();
                 }
                 return false;
             }
@@ -127,22 +140,81 @@ public class PhotoHandler implements Handler {
         System.out.println(res.getAbsolutePath() + res.separator);
         int i = 0;
         PStxtParser parser = new PStxtParser();
+        KmlFileParser kmlParser = new KmlFileParser();
+
 
         ArrayList<String> photoNames = new ArrayList<>();
         photoNames = parser.searchAndParse(res);
-
-    //    session.beginTransaction();
+        ArrayList<Point> points = parser.points;
+        Geometry extent = null;
 
         session.beginTransaction();
+        ArrayList<Point> flightPoints = new ArrayList<>(points.size());
 
-        ArrayList<Point> points = parser.points;
-        GeometryFactory factory = new GeometryFactory();
-        Geometry[] geomArray = factory.toGeometryArray(points);
-        GeometryCollection gc = factory.createGeometryCollection(geomArray);
-        ConcaveHull ch = new ConcaveHull(gc, 0.001);
-        Geometry concaveHull = ch.getConcaveHull();
+        Integer shift = parser.getShiftMoment(points);
 
-        PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, (Polygon) concaveHull);
+        for (int k = shift; k < points.size(); k++) {
+            Point point = points.get(k);
+            flightPoints.add(point);
+        }
+        if (kmlFile == null) {
+            GeometryFactory factory = new GeometryFactory();
+
+            Geometry[] geomArray = factory.toGeometryArray(flightPoints);
+            GeometryCollection gc = factory.createGeometryCollection(geomArray);
+            ConcaveHull ch = new ConcaveHull(gc, 0.001);
+            extent = ch.getConcaveHull();
+        } else {
+            kmlFile = kmlParser.searchAndParse(res);
+            final Kml kml = Kml.unmarshal(new File(kmlFile));
+
+            Document document = (Document) kml.getFeature();
+            Folder folder = (Folder) document.getFeature().get(0);
+           // ArrayList<MultiGeometry> mg = new ArrayList<>();
+
+            int folderSize = folder.getFeature().size();
+//            List<com.vividsolutions.jts.geom.Coordinate> coords = new ArrayList<>();
+
+
+
+
+            for (int k = 0; k < folderSize; k++) {
+                Placemark placemark = (Placemark) folder.getFeature().get(k);
+                de.micromata.opengis.kml.v_2_2_0.Polygon multigeometry =
+                        (de.micromata.opengis.kml.v_2_2_0.Polygon) placemark.getGeometry();
+                Boundary outerBoundaryIs = multigeometry.getOuterBoundaryIs();
+                LinearRing linearRing = outerBoundaryIs.getLinearRing();
+                List<Coordinate> coordinates = linearRing.getCoordinates();
+//TODO insert a lot of checks
+
+//                for (int j=0; j<coordinates.size(); j++) {
+//                    double lat = coordinates.get(j).getLatitude();
+//                    double lon = coordinates.get(j).getLongitude();
+//                    double alt = coordinates.get(j).getAltitude();
+//                    coords.add(new com.vividsolutions.jts.geom.Coordinate(lat, lon, alt));
+//                }
+
+
+                com.vividsolutions.jts.geom.Coordinate[] coords =
+                        new com.vividsolutions.jts.geom.Coordinate[coordinates.size()];
+                for (int j=0; j<coordinates.size(); j++) {
+                    double lat = coordinates.get(j).getLatitude();
+                    double lon = coordinates.get(j).getLongitude();
+                    double alt = coordinates.get(j).getAltitude();
+                    coords[j] =  new com.vividsolutions.jts.geom.Coordinate(lat, lon, alt);
+                }
+
+                GeometryFactory geometryFactory = new GeometryFactory();
+                com.vividsolutions.jts.geom.LinearRing linear =
+                        new GeometryFactory().createLinearRing(coords);
+
+
+                Polygon polygon = geometryFactory.createPolygon(coords);
+                extent = polygon;
+            }
+
+        }
+        PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, (Polygon) extent);
         session.save(folder);
         session.getTransaction().commit();
 
@@ -153,16 +225,9 @@ public class PhotoHandler implements Handler {
         ArrayList<Date> imgTimes = parserLight.getAvgExposureTime(images);
 
 
+        for (int j = 0; j < images.length; j++) {
 
-//        for (File image : images) {
-        for (int j = 0; j<images.length; j++) {
-
-//        for (int i = 0; i<images.length; i++) {
             Point centerCoord = parser.getPointByPhotoName(images[j], photoNames);
-            points.add(centerCoord);
-
-//            PhotoParser photoParser = new PhotoParser();
-//            Date exposureTime = photoParser.getExposureTime(image);
 
             if (centerCoord != null) {
                 System.out.println(centerCoord.getY());
@@ -171,10 +236,7 @@ public class PhotoHandler implements Handler {
             }
 
 
-//            session.save(new Photo((long) 5, centerCoord, null, image.getName(), new Date()));
-//            session.save(new Photo(folder, centerCoord, null, image.getAbsolutePath(), exposureTime));
             session.save(new Photo(folder, centerCoord, null, images[j].getAbsolutePath(), imgTimes.get(j)));
-//                    exposureTime));
 
             i++;
             if ((i % 10) == 0) {
@@ -182,8 +244,6 @@ public class PhotoHandler implements Handler {
                 session.beginTransaction();
             }
         }
-
-
 
 
 //TODO create session opening method in handler mngr
