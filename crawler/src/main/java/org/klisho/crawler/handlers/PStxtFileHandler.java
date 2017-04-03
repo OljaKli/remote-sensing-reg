@@ -1,13 +1,12 @@
 package org.klisho.crawler.handlers;
 
 import org.apache.commons.io.FilenameUtils;
-import org.klisho.crawler.utils.PStxtParser;
+import org.klisho.crawler.utils.parsers.PStxtParser;
 
 import com.vividsolutions.jts.geom.*;
 //import org.postgis.Point;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;

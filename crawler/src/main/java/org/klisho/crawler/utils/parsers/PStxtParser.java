@@ -1,4 +1,4 @@
-package org.klisho.crawler.utils;
+package org.klisho.crawler.utils.parsers;
 
 import com.vividsolutions.jts.geom.*;
 import org.apache.commons.io.FilenameUtils;
@@ -35,6 +35,32 @@ public class PStxtParser {
             try {
                 List<String> lines = Files.readAllLines(Paths.get(res.getAbsolutePath()),
                         StandardCharsets.UTF_8);
+//                if (lines == null) {
+//                    lines = Files.readAllLines(Paths.get(res.getAbsolutePath()),
+//                            StandardCharsets.ISO_8859_1);
+//                }
+
+                for (String line : lines) {
+                    if (!line.contains("#")) {
+                        String[] lineSep = line.split("\\t");
+                        if (lineSep != null && lineSep.length >= 4) {
+                            GeometryFactory geomFac = new GeometryFactory();
+                            points.add(geomFac.createPoint(new Coordinate(Double.valueOf(lineSep[2]),
+                                    Double.valueOf(lineSep[1]), Double.valueOf(lineSep[3]))));
+                            photoNames.add(lineSep[0]);
+                        } else {
+                            System.err.println("Inavlid coordinate string: " + line);
+                        }
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+           }
+
+            try {
+                List<String> lines = Files.readAllLines(Paths.get(res.getAbsolutePath()),
+                        StandardCharsets.ISO_8859_1);
+
                 for (String line : lines) {
                     if (!line.contains("#")) {
                         String[] lineSep = line.split("\\t");
@@ -51,6 +77,7 @@ public class PStxtParser {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
         return points;
 

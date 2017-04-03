@@ -1,4 +1,4 @@
-package org.klisho.crawler.utils;
+package org.klisho.crawler.utils.parsers;
 
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;

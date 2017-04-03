@@ -12,12 +12,23 @@ import java.util.Set;
  */
 public class PhotoScanFileHandler implements Handler {
 
-    private static final Set<String> PS_FILES_EXTENTIONS = new HashSet<String>() {{
+    public static final Set<String> PS_PROJ_EXTENTIONS = new HashSet<String>() {{
         add("psx");
-        add("psz");
+//        add("psz");
+    }};
+
+    public static final Set<String> ARCHIVE_EXTENTIONS = new HashSet<String>() {{
+        add("zip");
+    }};
+
+    public static final Set<String> PS_FILES_EXTENTIONS = new HashSet<String>() {{
+        add("files");
     }};
 
     private long nPSFiles = 0;
+
+    private String psxFile;
+    private String filesFile;
 
 
     @Override
@@ -35,9 +46,12 @@ public class PhotoScanFileHandler implements Handler {
                         }
 
                         String ext = FilenameUtils.getExtension(pathname.getAbsolutePath());
-                        if (ext != null && PS_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+                        if (ext != null && PS_PROJ_EXTENTIONS.contains(ext.toLowerCase())) {
+                            psxFile = pathname.getAbsolutePath();
                             return true;
-
+                        }
+                        if (ext != null && PS_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
+                            filesFile = pathname.getAbsolutePath();
                         }
                         return false;
                     }
@@ -59,6 +73,13 @@ public class PhotoScanFileHandler implements Handler {
 
     public long getnPSFiles() {
         return nPSFiles;
+    }
+
+    public String getPsxFile() {
+        return psxFile;
+    }
+    public String getFilesFile() {
+        return filesFile;
     }
 
     @Override

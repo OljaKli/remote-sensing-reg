@@ -33,7 +33,9 @@ public class HandlersManager {
         //mngr.handlers.add(new OrthoFileHandler());
 //        mngr.handlers.add(new KmlHandler());
        // mngr.handlers.add(new PStxtFileHandler());
+        mngr.handlers.add(new FrameZipHandler());
         mngr.handlers.add(new PhotoHandler(mngr.session));
+
 
         //TODO add another handlers
 

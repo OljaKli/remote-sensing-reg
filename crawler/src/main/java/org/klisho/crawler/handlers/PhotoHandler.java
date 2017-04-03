@@ -3,24 +3,16 @@ package org.klisho.crawler.handlers;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
-import de.micromata.opengis.kml.v_2_2_0.*;
-import de.micromata.opengis.kml.v_2_2_0.Coordinate;
-import de.micromata.opengis.kml.v_2_2_0.LinearRing;
 import org.apache.commons.io.FilenameUtils;
 import com.vividsolutions.jts.geom.*;
-import org.gdal.ogr.*;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.klisho.crawler.Exception.NoDataFoundEx;
 import org.klisho.crawler.HibernateClass.Photo;
 import org.klisho.crawler.HibernateClass.PhotoFolder;
-import org.klisho.crawler.utils.KmlFileParser;
-import org.klisho.crawler.utils.PStxtParser;
-import org.klisho.crawler.utils.PhotoParser;
-import org.klisho.crawler.utils.PhotoParserLight;
+import org.klisho.crawler.utils.parsers.FrameZipParser;
+import org.klisho.crawler.utils.parsers.KmlFileParser;
+import org.klisho.crawler.utils.parsers.PStxtParser;
+import org.klisho.crawler.utils.parsers.PhotoParserLight;
 import org.opensphere.geometry.algorithm.ConcaveHull;
 
 import java.io.File;
@@ -135,7 +127,10 @@ public class PhotoHandler implements Handler {
 //        Session session = sessionFactory.openSession();
 
         //здесь найти PStxt, его распарсить
-
+//
+//        FrameZipParser zipParser = new FrameZipParser();
+//        String filesZip = zipParser.searchFilesZip(res);
+//        File docXml = zipParser.frameZipParse(filesZip);
 
         System.out.println(res.getAbsolutePath() + res.separator);
         int i = 0;
@@ -164,54 +159,49 @@ public class PhotoHandler implements Handler {
             GeometryCollection gc = factory.createGeometryCollection(geomArray);
             ConcaveHull ch = new ConcaveHull(gc, 0.001);
             extent = ch.getConcaveHull();
-        } else {
+        } else
+        {
             kmlFile = kmlParser.searchAndParse(res);
-            final Kml kml = Kml.unmarshal(new File(kmlFile));
-
-            Document document = (Document) kml.getFeature();
-            Folder folder = (Folder) document.getFeature().get(0);
-           // ArrayList<MultiGeometry> mg = new ArrayList<>();
-
-            int folderSize = folder.getFeature().size();
-//            List<com.vividsolutions.jts.geom.Coordinate> coords = new ArrayList<>();
-
-
-
-
-            for (int k = 0; k < folderSize; k++) {
-                Placemark placemark = (Placemark) folder.getFeature().get(k);
-                de.micromata.opengis.kml.v_2_2_0.Polygon multigeometry =
-                        (de.micromata.opengis.kml.v_2_2_0.Polygon) placemark.getGeometry();
-                Boundary outerBoundaryIs = multigeometry.getOuterBoundaryIs();
-                LinearRing linearRing = outerBoundaryIs.getLinearRing();
-                List<Coordinate> coordinates = linearRing.getCoordinates();
-//TODO insert a lot of checks
-
-//                for (int j=0; j<coordinates.size(); j++) {
-//                    double lat = coordinates.get(j).getLatitude();
-//                    double lon = coordinates.get(j).getLongitude();
-//                    double alt = coordinates.get(j).getAltitude();
-//                    coords.add(new com.vividsolutions.jts.geom.Coordinate(lat, lon, alt));
-//                }
-
-
-                com.vividsolutions.jts.geom.Coordinate[] coords =
-                        new com.vividsolutions.jts.geom.Coordinate[coordinates.size()];
-                for (int j=0; j<coordinates.size(); j++) {
-                    double lat = coordinates.get(j).getLatitude();
-                    double lon = coordinates.get(j).getLongitude();
-                    double alt = coordinates.get(j).getAltitude();
-                    coords[j] =  new com.vividsolutions.jts.geom.Coordinate(lat, lon, alt);
-                }
-
-                GeometryFactory geometryFactory = new GeometryFactory();
-                com.vividsolutions.jts.geom.LinearRing linear =
-                        new GeometryFactory().createLinearRing(coords);
-
-
-                Polygon polygon = geometryFactory.createPolygon(coords);
-                extent = polygon;
+            try {
+                Polygon poly = kmlParser.parseKml(kmlFile);
+                extent = poly;
+            } catch (NoDataFoundEx noDataFoundEx) {
+                noDataFoundEx.printStackTrace();
             }
+
+//            final Kml kml = Kml.unmarshal(new File(kmlFile));
+//
+//
+//            Document document = (Document) kml.getFeature();
+//
+//            Folder folder = (Folder) document.getFeature().get(0);
+//            int folderSize = folder.getFeature().size();
+//
+//            for (int k = 0; k < folderSize; k++) {
+//                Placemark placemark = (Placemark) folder.getFeature().get(k);
+//                de.micromata.opengis.kml.v_2_2_0.Polygon multigeometry =
+//                        (de.micromata.opengis.kml.v_2_2_0.Polygon) placemark.getGeometry();
+//                Boundary outerBoundaryIs = multigeometry.getOuterBoundaryIs();
+//                LinearRing linearRing = outerBoundaryIs.getLinearRing();
+//                List<Coordinate> coordinates = linearRing.getCoordinates();
+//
+//                com.vividsolutions.jts.geom.Coordinate[] coords =
+//                        new com.vividsolutions.jts.geom.Coordinate[coordinates.size()];
+//                for (int j=0; j<coordinates.size(); j++) {
+//                    double lon = coordinates.get(j).getLatitude();
+//                    double lat = coordinates.get(j).getLongitude();
+//                    double alt = coordinates.get(j).getAltitude();
+//                    coords[j] =  new com.vividsolutions.jts.geom.Coordinate(lat, lon, alt);
+//                }
+//
+//                GeometryFactory geometryFactory = new GeometryFactory();
+//                com.vividsolutions.jts.geom.LinearRing linear =
+//                        new GeometryFactory().createLinearRing(coords);
+//
+//
+//                Polygon polygon = geometryFactory.createPolygon(coords);
+//                extent = polygon;
+//            }
 
         }
         PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, (Polygon) extent);
@@ -243,6 +233,7 @@ public class PhotoHandler implements Handler {
                 session.getTransaction().commit();
                 session.beginTransaction();
             }
+
         }
 
 
