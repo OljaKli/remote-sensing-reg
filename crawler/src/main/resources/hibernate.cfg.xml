@@ -51,6 +51,7 @@
         <mapping class="org.klisho.crawler.HibernateClass.Photo"/>
 
         <mapping class="org.klisho.crawler.HibernateClass.PhotoFolder"/>
+        <mapping class="org.klisho.crawler.HibernateClass.PSproject"/>
 
     </session-factory>
 

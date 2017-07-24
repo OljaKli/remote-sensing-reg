@@ -19,13 +19,13 @@ import java.util.List;
 
 public class PSproject {
     @Id
-    @Generated(value= GenerationTime.INSERT)
+    @Generated(value = GenerationTime.INSERT)
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long projectId;
 
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<PhotoFolder> photoFolders = new ArrayList<>();
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+//    private List<PhotoFolder> photoFolders = new ArrayList<>();
 
     private String psxPath;
     private String filesPath;
@@ -37,7 +37,7 @@ public class PSproject {
 
     public PSproject(List<PhotoFolder> photoFolders, String psxPath, String filesPath) {
         // for application use, to create new events
-        this.photoFolders = photoFolders;
+       // this.photoFolders = photoFolders;
         this.psxPath = psxPath;
         this.filesPath = filesPath;
     }
@@ -49,14 +49,14 @@ public class PSproject {
     private void setId(Long id) {
         this.projectId = id;
     }
-
-    public List<PhotoFolder> getFoldersList(){
-        return photoFolders;
-    }
-
-    public void setFoldersList(List<PhotoFolder> folders) {
-        this.photoFolders = folders;
-    }
+//
+//    public List<PhotoFolder> getFoldersList(){
+//        return photoFolders;
+//    }
+//
+//    public void setFoldersList(List<PhotoFolder> folders) {
+//        this.photoFolders = folders;
+//    }
 
     public String getPsxPath() {
         return psxPath;

@@ -55,7 +55,7 @@ public class PStxtParser {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-           }
+            }
 
             try {
                 List<String> lines = Files.readAllLines(Paths.get(res.getAbsolutePath()),
@@ -84,6 +84,7 @@ public class PStxtParser {
     }
 
     public ArrayList<String> searchAndParse(File res) {
+        //res - photoFolder
         String PStxtPath = null;
         File[] files = res.listFiles();
         Arrays.sort(files);
@@ -156,12 +157,12 @@ public class PStxtParser {
         return getPointByIndex(index);
     }
 
-    public Integer getShiftMoment (ArrayList<Point> points) {
+    public Integer getShiftMoment(ArrayList<Point> points) {
         Integer shift = null;
 
         int j = 0;
 
-        while (shift == null && j < points.size()-1) {
+        while (shift == null && j < points.size() - 1) {
             double currentZ = points.get(j).getCoordinate().z;
             double nextZ = points.get(j + 1).getCoordinate().z;
             double dif = nextZ - currentZ;

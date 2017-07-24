@@ -11,6 +11,8 @@ apply plugin: 'idea'
 // Apply the java plugin to add support for Java
 apply plugin: 'java'
 
+apply plugin: 'org.springframework.boot'
+
 // In this section you declare where to find the dependencies of your project
 repositories {
     // Use 'jcenter' for resolving your dependencies.
@@ -28,6 +30,9 @@ repositories {
 
 // In this section you declare the dependencies for your production and test code
 dependencies {
+
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+
     compile files ('/Users/Ola-Mola/Downloads/gdal-2.1.2/swig/java/gdal.jar')
     compile group: 'net.postgis', name: 'postgis-jdbc', version: '2.1.7.2'
 

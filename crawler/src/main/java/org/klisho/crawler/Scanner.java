@@ -36,15 +36,11 @@ public class Scanner {
         for (File file : listOfFiles) {
 
             if (file.isFile()) {
-                // System.out.println(file.getName());
                 handlersMngr.handle(file);
-
-                //''' System.out.println(handlersMngr);
 
             } else if (file.isDirectory()) {
-                //System.out.println(file.getName() + File.separator);
                 handlersMngr.handle(file);
-                //  System.out.println(handlersMngr);
+
                 if (!handlersMngr.prune(file)) {
                     scan(file);
                 }

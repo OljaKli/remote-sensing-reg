@@ -9,6 +9,7 @@ import com.vividsolutions.jts.geom.*;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -38,39 +39,38 @@ public class PhotoFolder {
     }
     private Polygon extend;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<PSproject> psProjects = new ArrayList<>();
 
-
-    //
-   // private Set<Photo> photos = new HashSet<>(0);
-
-
-//
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "folder_id")
-//    private Set<Photo> photos = new HashSet<Photo>();
 
     @OneToMany (mappedBy = "folder")
     private List<Photo> photos = new ArrayList<>();
-
-
+// maybe not needed in this class
+    private Double area;
+    private boolean scannedFlag;
+    private LocalDate scanDate;
+    private Integer photoNum;
 
     public PhotoFolder() {
         // this form used by Hibernate
     }
 
-    public PhotoFolder(String folderPath, PhotoType photoType, Polygon extend) {
+    public PhotoFolder(String folderPath, PhotoType photoType, List<PSproject> pSprojects, Polygon extend,
+                       Double area, boolean scannedFlag, LocalDate scanDate, Integer photoNum) {
         // for application use, to create new events
 
         this.folderPath = folderPath;
         this.photoType = photoType;
         this.extend = extend;
+        this.area = area;
+        this.scannedFlag = scannedFlag;
+        this.scanDate = scanDate;
+
+        this.photoNum = photoNum;
+        this.psProjects = psProjects;
+
     }
 
-//    public PhotoFolder(String folderPath, PhotoType photoType, Polygon extend, Set<Photo> photos){
-//        this.folderPath = folderPath;
-//        this.photoType = photoType;
-//        this.extend = extend;
-//        this.photos = photos;
-//    }
 
    public Long getId() {
         return folderId;
@@ -92,6 +92,10 @@ public class PhotoFolder {
         return photoType;
     }
 
+    public Double getArea() {return area;}
+
+    public void setArea(Double area) {this.area = area;}
+
     public void setPhotoType(PhotoType photoType) {
         this.photoType = photoType;
     }
@@ -107,5 +111,23 @@ public class PhotoFolder {
     public List<Photo> getFodlerPhotos() {
         return this.photos;
     }
+
+    public List<PSproject> getProjList() {
+        return this.psProjects;
+    }
+    public void setProjList (List<PSproject> projects) {
+        this.psProjects = projects;
+    }
+
+    public boolean getScannedFlag() {return scannedFlag;}
+    public void setScannedFlag(boolean scannedFlag) {this.scannedFlag = scannedFlag; }
+
+    public LocalDate getScanDate() {return this.scanDate;}
+
+    public void setScanDate(LocalDate date) {this.scanDate = scanDate;}
+
+    public Integer getPhotoNum() {return this.photoNum;}
+
+    public void setPhotoNum(Integer photoNum) {this.photoNum = photoNum;}
 
 }

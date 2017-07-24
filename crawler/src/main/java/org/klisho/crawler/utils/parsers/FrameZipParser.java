@@ -1,5 +1,7 @@
 package org.klisho.crawler.utils.parsers;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.ArchiveStreamFactory;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
@@ -9,9 +11,14 @@ import org.apache.commons.io.IOUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
+import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -55,8 +62,11 @@ public class FrameZipParser {
         return frameZipPath;
     }
 
-    public File frameZipParse(String frameZip) {
+    public ArrayList<String> frameZipParse(String frameZip) {
         File frame = new File(frameZip);
+        ArrayList<String> photoNames = new ArrayList<>();
+        List<Node> nodes = new ArrayList<>();
+
         byte[] zipFileBytes;
 
 //        InputStream input = frame.;
@@ -67,6 +77,8 @@ public class FrameZipParser {
 
         try {
             ZipFile zipFile = new ZipFile(frameZip);
+
+
             try {
                 ZipArchiveEntry entry = zipFile.getEntry("doc.xml");
                 InputStream content = zipFile.getInputStream(entry);
@@ -79,9 +91,32 @@ public class FrameZipParser {
 //                    Element root = document.getRootElement();
 
 //                    Iterator itr = root.elements().iterator();
-                    List nodes = document.selectNodes("//photo");
+                    nodes = document.selectNodes("//photo/@path");
+
+
                     System.out.println("" + nodes.size());
 
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+                    for (Node node : nodes){
+                        String nodeStr = node.getStringValue();
+                        //String[] lineSep = nodeStr.split("/");
+
+//
+//                        if (lineSep != null && lineSep.length > 2) {
+//                            photoNames.add(lineSep[lineSep.length-1]);
+//                        }
+
+                        String nameFile = FilenameUtils.getName(nodeStr);
+                        if (nameFile != null) {
+                            photoNames.add(nameFile);
+                        }
+
+                        else {
+
+                            System.err.println("Inavlid coordinate string: " + node);
+                        }
+                    }
 
                 } catch (DocumentException de) {
                     de.printStackTrace();
@@ -96,9 +131,7 @@ public class FrameZipParser {
         }
 
 
-
-
-        File docXml = frame.listFiles()[0];
-        return docXml;
+       // File docXml = frame.listFiles()[0];
+        return photoNames;
     }
 }

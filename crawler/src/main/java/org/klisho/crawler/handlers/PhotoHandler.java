@@ -5,7 +5,11 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import org.apache.commons.io.FilenameUtils;
 import com.vividsolutions.jts.geom.*;
+import org.hibernate.HibernateError;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.klisho.crawler.Exception.NoDataFoundEx;
 import org.klisho.crawler.HibernateClass.Photo;
 import org.klisho.crawler.HibernateClass.PhotoFolder;
@@ -15,8 +19,12 @@ import org.klisho.crawler.utils.parsers.PStxtParser;
 import org.klisho.crawler.utils.parsers.PhotoParserLight;
 import org.opensphere.geometry.algorithm.ConcaveHull;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileFilter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.klisho.crawler.handlers.KmlHandler.KML_FILES_EXTENTIONS;
@@ -54,7 +62,7 @@ public class PhotoHandler implements Handler {
 //    private static SessionFactory sessionFactory;
 
     private long nDirs = 0;
-    private long nImages = 0;
+    private int nImages = 0;
 
     private File[] images = null;
     private String txtFile = null;
@@ -70,6 +78,8 @@ public class PhotoHandler implements Handler {
         if (!res.isDirectory()) {
             return false;
         }
+
+
         File[] files = res.listFiles(new FileFilter() {
             @Override
             public boolean accept(File pathname) {
@@ -77,10 +87,26 @@ public class PhotoHandler implements Handler {
                     return false;
                 }
 
+
+              // session.getTransaction();
+//                session.beginTransaction();
+                Query query = session.createQuery("from PhotoFolder where folderPath = :path and scannedFlag = true");
+                //Query query = session.createQuery("from PhotoFolder where folderPath = :path");
+                query.setParameter("path", res.getAbsolutePath());
+                List scanFlag = query.list();
+
+                if (!scanFlag.isEmpty()) {
+                    System.out.println("skipped folder = " + res);
+                    return false;
+                }
+               // session.getTransaction().commit();
+              //  session.close();
+
                 String ext = FilenameUtils.getExtension(pathname.getAbsolutePath());
                 if (ext != null && IMAGERY_EXTENTIONS.contains(ext.toLowerCase())) {
                     return true;
                 }
+
                 if (ext != null && PSTXT_FILES_EXTENTIONS.contains(ext.toLowerCase())) {
                     txtFile = pathname.getAbsolutePath();
                 }
@@ -159,8 +185,7 @@ public class PhotoHandler implements Handler {
             GeometryCollection gc = factory.createGeometryCollection(geomArray);
             ConcaveHull ch = new ConcaveHull(gc, 0.001);
             extent = ch.getConcaveHull();
-        } else
-        {
+        } else {
             kmlFile = kmlParser.searchAndParse(res);
             try {
                 Polygon poly = kmlParser.parseKml(kmlFile);
@@ -204,7 +229,8 @@ public class PhotoHandler implements Handler {
 //            }
 
         }
-        PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, (Polygon) extent);
+        PhotoFolder folder = new PhotoFolder(res.getAbsolutePath(), PhotoFolder.PhotoType.RGB, null,
+                (Polygon) extent, extent.getArea(), false, LocalDate.now(), this.getImagesNum());
         session.save(folder);
         session.getTransaction().commit();
 
@@ -226,7 +252,8 @@ public class PhotoHandler implements Handler {
             }
 
 
-            session.save(new Photo(folder, centerCoord, null, images[j].getAbsolutePath(), imgTimes.get(j)));
+            session.save(new Photo(folder, centerCoord, null, images[j].getAbsolutePath(),
+                    imgTimes.get(j), true, LocalDate.now()));
 
             i++;
             if ((i % 10) == 0) {
@@ -234,19 +261,22 @@ public class PhotoHandler implements Handler {
                 session.beginTransaction();
             }
 
+            if (j == images.length - 1) {
+                folder.setScannedFlag(true);
+            }
+
         }
 
 
 //TODO create session opening method in handler mngr
         session.getTransaction().commit();
-//        session.close();
     }
 
     public long getDirsNum() {
         return nDirs;
     }
 
-    public long getImagesNum() {
+    public int getImagesNum() {
         return nImages;
     }
 

@@ -66,7 +66,6 @@ public class HandlersManager {
             strB.append(handler.toString());
         }
 
-
         return strB.toString();
     }
 

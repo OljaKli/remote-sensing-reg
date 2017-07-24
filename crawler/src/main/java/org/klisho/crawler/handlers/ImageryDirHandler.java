@@ -11,6 +11,7 @@ import org.klisho.crawler.HibernateClass.PhotoFolder;
 import java.io.File;
 import java.io.FileFilter;
 import java.security.cert.Extension;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -99,8 +100,7 @@ public class ImageryDirHandler implements Handler {
         System.out.println(res.getAbsolutePath() + res.separator);
         System.out.println(this);
 
-
-        session.save(new PhotoFolder(res.getAbsolutePath(), photoType, null));
+        session.save(new PhotoFolder(res.getAbsolutePath(), photoType, null, null, null, false, LocalDate.now(), null));
 
         session.getTransaction().commit();
         session.close();

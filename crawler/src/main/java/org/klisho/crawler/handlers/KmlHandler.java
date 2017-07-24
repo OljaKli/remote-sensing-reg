@@ -1,6 +1,8 @@
 package org.klisho.crawler.handlers;
 
 import org.apache.commons.io.FilenameUtils;
+import org.klisho.crawler.Exception.NoDataFoundEx;
+import org.klisho.crawler.utils.parsers.KmlFileParser;
 import org.opensphere.geometry.algorithm.ConcaveHull;
 
 import java.io.File;
@@ -54,6 +56,12 @@ public class KmlHandler implements Handler{
     public void handle(File res) {
         System.out.println(res.getAbsolutePath() + res.separator);
         System.out.println(this);
+        KmlFileParser parser = new KmlFileParser();
+        try {
+            com.vividsolutions.jts.geom.Polygon poly = parser.parseKml(res.getAbsolutePath());
+        } catch (NoDataFoundEx noDataFoundEx) {
+            noDataFoundEx.printStackTrace();
+        }
 
 
     }

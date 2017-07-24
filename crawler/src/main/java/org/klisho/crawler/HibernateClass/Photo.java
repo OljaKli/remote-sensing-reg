@@ -13,6 +13,7 @@ import com.vividsolutions.jts.geom.Polygon;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -42,18 +43,24 @@ public class Photo {
         private String fileName;
         private Date timeStamp;
 
+        private boolean scannedFlag;
+        private LocalDate scanDate;
+
 
         public Photo() {
             // this form used by Hibernate
         }
 
-        public Photo(PhotoFolder folder, Point centerCoordinate, Polygon extend, String fileName, Date timeStamp) {
+        public Photo(PhotoFolder folder, Point centerCoordinate, Polygon extend, String fileName,
+                     Date timeStamp, boolean scannedFlag, LocalDate scanDate) {
             // for application use, to create new events
             this.folder = folder;
             this.centerCoordinate = centerCoordinate;
             this.extent = extend;
             this.fileName = fileName;
             this.timeStamp = timeStamp;
+            this.scannedFlag = scannedFlag;
+            this.scanDate = scanDate;
         }
 
 
@@ -98,5 +105,13 @@ public class Photo {
         public Date getTimeStamp() {return timeStamp; }
 
         public void setTimeStamp(Date timeStamp) {this.timeStamp = timeStamp; }
+
+        public boolean getScannedFlag() {return scannedFlag;}
+
+        public void setScannedFlag(boolean scannedFlag) {this.scannedFlag = scannedFlag;}
+
+        public LocalDate getScanDate() {return scanDate;}
+
+        public void setScanDate(LocalDate scanDate) {this.scanDate = scanDate;}
 
 }

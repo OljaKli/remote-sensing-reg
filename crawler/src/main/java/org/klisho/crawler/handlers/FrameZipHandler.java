@@ -5,6 +5,7 @@ import org.klisho.crawler.utils.parsers.FrameZipParser;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.ArrayList;
 
 import static org.klisho.crawler.handlers.PhotoScanFileHandler.ARCHIVE_EXTENTIONS;
 
@@ -31,6 +32,6 @@ public class FrameZipHandler implements Handler {
 
     public void handle(File res) {
         FrameZipParser zipParser = new FrameZipParser();
-        File docXml = zipParser.frameZipParse(frameZipPath);
+        ArrayList<String> photos = zipParser.frameZipParse(frameZipPath);
     }
 }
